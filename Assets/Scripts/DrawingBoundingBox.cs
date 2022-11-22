@@ -1,0 +1,107 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class DrawingBoundingBox : MonoBehaviour
+{
+
+    public static DrawingBoundingBox instance;
+    // When added to an object, draws colored rays from the
+    // transform position.
+    public int lineCount = 4;
+    public float radius = 3.0f;
+
+    static Material lineMaterial;
+    public Vector3 a, b, c, d;
+    public Vector3 e, f, g, h;
+
+    private void Start()
+    {
+        //e = Camera.main.ViewportToWorldPoint(a);
+        //f = Camera.main.ViewportToWorldPoint(b);
+        //g = Camera.main.ViewportToWorldPoint(c);
+        //h = Camera.main.ViewportToWorldPoint(d);
+
+        instance = this;
+
+    }
+
+    static void CreateLineMaterial()
+    {
+        if (!lineMaterial)
+        {
+            // Unity has a built-in shader that is useful for drawing
+            // simple colored things.
+            Shader shader = Shader.Find("Hidden/Internal-Colored");
+            lineMaterial = new Material(shader);
+            lineMaterial.hideFlags = HideFlags.HideAndDontSave;
+            // Turn on alpha blending
+            lineMaterial.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+            lineMaterial.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+            // Turn backface culling off
+            lineMaterial.SetInt("_Cull", (int)UnityEngine.Rendering.CullMode.Off);
+            // Turn off depth writes
+            lineMaterial.SetInt("_ZWrite", 0);
+        }
+    }
+
+    // Will be called after all regular rendering is done
+    public void OnRenderObject()
+    {
+        CreateLineMaterial();
+        // Apply the line material
+        lineMaterial.SetPass(0);
+
+        GL.PushMatrix();
+        // Set transformation matrix for drawing to
+        // match our transform
+        GL.MultMatrix(transform.localToWorldMatrix);
+
+        // Draw lines
+        GL.Begin(GL.LINES);
+        //for (int i = 0; i < lineCount; ++i)
+        //{
+        //    float a = i / (float)lineCount;
+        //    float angle = a * Mathf.PI * 2;
+        //    // Vertex colors change from red to green
+        //    GL.Color(new Color(a, 1 - a, 0, 0.8F));
+        //    // One vertex at transform position
+        //    GL.Vertex3(0, 0, 0);
+        //    // Another vertex at edge of circle
+        //    GL.Vertex3(Mathf.Cos(angle) * radius, Mathf.Sin(angle) * radius, 0);
+        //}
+        //draw rectangles
+
+        // Vertex colors change from red to green
+        GL.Color(new Color(1.0f, 0.0f, 0.0f, 1.0f));
+        // One vertex at transform position
+
+        GL.Vertex3(JsonParser.instance.e.x, JsonParser.instance.e.y, 0.0f);
+        GL.Vertex3(JsonParser.instance.f.x, JsonParser.instance.f.y, 0.0f);
+
+
+        GL.Vertex3(JsonParser.instance.f.x, JsonParser.instance.f.y, 0.0f);
+        GL.Vertex3(JsonParser.instance.g.x, JsonParser.instance.g.y, 0.0f);
+
+        GL.Vertex3(JsonParser.instance.g.x, JsonParser.instance.g.y, 0.0f);
+        GL.Vertex3(JsonParser.instance.h.x, JsonParser.instance.h.y, 0.0f);
+
+        GL.Vertex3(JsonParser.instance.h.x, JsonParser.instance.h.y, 0.0f);
+        GL.Vertex3(JsonParser.instance.e.x, JsonParser.instance.e.y, 0.0f);
+
+        //
+
+        GL.End();
+        GL.PopMatrix();
+    }
+
+   
+    private void OnPostRender()
+    {
+        // Set your materials
+        GL.PushMatrix();
+        // yourMaterial.SetPass( );
+        // Draw your stuff
+        GL.PopMatrix();
+    }
+}
