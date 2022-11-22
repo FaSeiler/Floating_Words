@@ -16,6 +16,7 @@ public class WebCamTextureToCloudVision : MonoBehaviour
 	public int maxResults = 10;
 	public GameObject resPanel;
 	public Text responseText, responseArray;
+	public Quaternion baseRotation; //x=90, y=180, z=0
 
 	public JsonParser jp;
 
@@ -65,6 +66,8 @@ public class WebCamTextureToCloudVision : MonoBehaviour
 	// Use this for initialization
 	void Start()
 	{
+		Screen.sleepTimeout = SleepTimeout.NeverSleep; ; // Stop turning off mobile screen
+
 		GameObject es = GameObject.Find("EventSystem");
 		//jp = (JsonParser)es.gameObject.GetComponent(typeof(JsonParser));
 
@@ -78,6 +81,20 @@ public class WebCamTextureToCloudVision : MonoBehaviour
 		WebCamDevice[] devices = WebCamTexture.devices;
 		for (var i = 0; i < devices.Length; i++)
 		{
+			Resolution[] resolutionsAvailable = devices[i].availableResolutions;
+
+			if (resolutionsAvailable != null)
+			{
+				for (int j = 0; j < resolutionsAvailable.Length; j++)
+				{
+					Debug.Log("Res [" + j + "]: " + resolutionsAvailable[j].ToString()); // This will only be logged on IPhone or Android devices
+				}
+
+				// For OnePlus 8 the first entry is the highest resolution
+				requestedWidth = resolutionsAvailable[0].width;
+				requestedHeight = resolutionsAvailable[0].height;
+			}
+
 			Debug.Log(devices[i].name);
 		}
 		if (devices.Length > 0)
@@ -100,6 +117,7 @@ public class WebCamTextureToCloudVision : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
+		transform.rotation = baseRotation * Quaternion.AngleAxis(webcamTexture.videoRotationAngle, Vector3.up);
 	}
 
 	private IEnumerator Capture()

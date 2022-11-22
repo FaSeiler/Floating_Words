@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class JsonParser : MonoBehaviour
 {
@@ -9,6 +10,9 @@ public class JsonParser : MonoBehaviour
     public GameObject glPrefab;
 
     public Vector3 e, f, g, h;
+    
+    public TextMeshProUGUI debug_Text;
+
 
     private void Start()
     {
@@ -63,12 +67,13 @@ public class JsonParser : MonoBehaviour
     public void printInfo(DetectedObj obj)
     {
         Debug.Log(obj.BR);
-        string info = "New DetectedObj : " + obj.Label + "\n"
+        string info = "New Detected Object : " + obj.Label + "\n"
             + "BottomLeft Coordinates : x= " + obj.BL.x + "  y= " + obj.BL.y + "\n"
             + "BottomRight Coordinates : x= " + obj.BR.x + "  y= " + obj.BR.y + "\n"
             + "UpRight Coordinates : x= " + obj.UR.x + "  y= " + obj.UR.y + "\n"
             + "UpLeft Coordinates : x= " + obj.UL.x + "  y= " + obj.UL.y + "\n";
         Debug.Log(info);
+        debug_Text.text = "New Detected Object : " + obj.Label;
         e = Camera.main.ViewportToWorldPoint(obj.BL);
         f = Camera.main.ViewportToWorldPoint(obj.UL);
         g = Camera.main.ViewportToWorldPoint(obj.UR);
