@@ -4,29 +4,13 @@ using UnityEngine;
 
 public class DrawingBoundingBox : MonoBehaviour
 {
-
-    public static DrawingBoundingBox instance;
-    // When added to an object, draws colored rays from the
-    // transform position.
-    public int lineCount = 4;
-    public float radius = 3.0f;
-
-    static Material lineMaterial;
-    public Vector3 a, b, c, d;
-    public Vector3 e, f, g, h;
-
-    private void Start()
-    {
-        //e = Camera.main.ViewportToWorldPoint(a);
-        //f = Camera.main.ViewportToWorldPoint(b);
-        //g = Camera.main.ViewportToWorldPoint(c);
-        //h = Camera.main.ViewportToWorldPoint(d);
-
-        instance = this;
-
-    }
-
-    static void CreateLineMaterial()
+    public Material lineMaterial;
+    private List <JsonParser.DetectedObj> ObjList;
+    private float planex;
+    private float planey;
+    public GameObject plane;
+    public ShowInfo SI;
+    void CreateLineMaterial()
     {
         if (!lineMaterial)
         {
@@ -44,64 +28,78 @@ public class DrawingBoundingBox : MonoBehaviour
             lineMaterial.SetInt("_ZWrite", 0);
         }
     }
+    void Start()
+    {
+        planex = plane.GetComponent<Renderer>().bounds.size.x;
+        planey = plane.GetComponent<Renderer>().bounds.size.y;
+        Debug.Log(plane.GetComponent<Renderer>().bounds.size.ToString());
+        ObjList=new List<JsonParser.DetectedObj>();
+        SI = (ShowInfo)this.gameObject.GetComponent(typeof(ShowInfo));
+    }
+    public void setobj(List <JsonParser.DetectedObj> newobjList)
+    {
+        ObjList.Clear();
+        foreach (JsonParser.DetectedObj obj in newobjList.ToArray())
+        {
+            JsonParser.DetectedObj newObj = obj;
 
-    // Will be called after all regular rendering is done
+            newObj.BR = new Vector2(((newObj.BR.x - 0.5f) * planex), ((-newObj.BR.y + 0.5f) * planey));
+            newObj.BL = new Vector2(((newObj.BL.x - 0.5f) * planex), ((-newObj.BL.y + 0.5f) * planey));
+            newObj.UR = new Vector2(((newObj.UR.x - 0.5f) * planex), ((-newObj.UR.y + 0.5f) * planey));
+            newObj.UL = new Vector2(((newObj.UL.x - 0.5f) * planex), ((-newObj.UL.y + 0.5f) * planey));
+            ObjList.Add(newObj);
+            Vector2 center = (newObj.UL + newObj.UR + newObj.BL + newObj.BR) / 4;
+            SI.ShowLabel(newObj.Label, center);
+        }
+    }
+    //Will be called after all regular rendering is done
     public void OnRenderObject()
     {
         CreateLineMaterial();
-        // Apply the line material
-        lineMaterial.SetPass(0);
 
         GL.PushMatrix();
+        // Apply the line material
+        lineMaterial.SetPass(0);
         // Set transformation matrix for drawing to
         // match our transform
-        GL.MultMatrix(transform.localToWorldMatrix);
+        //GL.LoadOrtho();
+        //GL.MultMatrix(transform.localToWorldMatrix);
+        //Debug.Log(transform.localToWorldMatrix.ToString());
+      
+        GL.Begin(GL.LINES);  // Draw lines
 
-        // Draw lines
-        GL.Begin(GL.LINES);
-        //for (int i = 0; i < lineCount; ++i)
-        //{
-        //    float a = i / (float)lineCount;
-        //    float angle = a * Mathf.PI * 2;
-        //    // Vertex colors change from red to green
-        //    GL.Color(new Color(a, 1 - a, 0, 0.8F));
-        //    // One vertex at transform position
-        //    GL.Vertex3(0, 0, 0);
-        //    // Another vertex at edge of circle
-        //    GL.Vertex3(Mathf.Cos(angle) * radius, Mathf.Sin(angle) * radius, 0);
-        //}
-        //draw rectangles
+        GL.Color(new Color(1.0f, 0.0f, 0.0f, 1.0f)); // Vertex colors change from red to green
 
-        // Vertex colors change from red to green
-        GL.Color(new Color(1.0f, 0.0f, 0.0f, 1.0f));
+
+
         // One vertex at transform position
 
-        GL.Vertex3(JsonParser.instance.e.x, JsonParser.instance.e.y, 0.0f);
-        GL.Vertex3(JsonParser.instance.f.x, JsonParser.instance.f.y, 0.0f);
+        foreach (JsonParser.DetectedObj obj in ObjList.ToArray())
+        {
+            GL.Vertex(obj.BL);
+            GL.Vertex(obj.BR);
 
+            GL.Vertex(obj.BR);
+            GL.Vertex(obj.UR);
 
-        GL.Vertex3(JsonParser.instance.f.x, JsonParser.instance.f.y, 0.0f);
-        GL.Vertex3(JsonParser.instance.g.x, JsonParser.instance.g.y, 0.0f);
+            GL.Vertex(obj.UR);
+            GL.Vertex(obj.UL);
 
-        GL.Vertex3(JsonParser.instance.g.x, JsonParser.instance.g.y, 0.0f);
-        GL.Vertex3(JsonParser.instance.h.x, JsonParser.instance.h.y, 0.0f);
-
-        GL.Vertex3(JsonParser.instance.h.x, JsonParser.instance.h.y, 0.0f);
-        GL.Vertex3(JsonParser.instance.e.x, JsonParser.instance.e.y, 0.0f);
-
-        //
+            GL.Vertex(obj.UL);
+            GL.Vertex(obj.BL);
+        }
 
         GL.End();
         GL.PopMatrix();
     }
 
    
-    private void OnPostRender()
-    {
+   // private void OnPostRender()
+   // {
         // Set your materials
-        GL.PushMatrix();
+      //  GL.PushMatrix();
         // yourMaterial.SetPass( );
         // Draw your stuff
-        GL.PopMatrix();
-    }
+    //    GL.PopMatrix();
+  //  }
 }

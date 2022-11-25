@@ -69,7 +69,7 @@ public class WebCamTextureToCloudVision : MonoBehaviour
 		Screen.sleepTimeout = SleepTimeout.NeverSleep; ; // Stop turning off mobile screen
 
 		GameObject es = GameObject.Find("EventSystem");
-		//jp = (JsonParser)es.gameObject.GetComponent(typeof(JsonParser));
+		jp = (JsonParser)es.gameObject.GetComponent(typeof(JsonParser));
 
 		Application.targetFrameRate = 30;
 		headers = new Dictionary<string, string>();
