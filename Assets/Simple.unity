@@ -876,5 +876,8 @@ MonoBehaviour:
   requestedHeight: 480
   featureType: 0
   maxResults: 3
+  resPanel: {fileID: 412903920}
+  responseText: {fileID: 0}
+  responseArray: {fileID: 0}
   baseRotation: {x: -0.00000003090862, y: 0.70710677, z: -0.70710677, w: -0.00000003090862}
-  jasonParser: {fileID: 613872455}
+  jp: {fileID: 0}

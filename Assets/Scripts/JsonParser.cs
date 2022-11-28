@@ -48,7 +48,7 @@ public class JsonParser : MonoBehaviour
             for (int i = 0; i < 4; i++)
             {
                 startIndex = text.IndexOf("x", startIndex) + 3;
-                //Debug.Log(text.Substring(startIndex, text.IndexOf(',', startIndex) - startIndex));
+                Debug.Log(text.Substring(startIndex, text.IndexOf(',', startIndex) - startIndex));
                 float x = (float)Convert.ToDouble(text.Substring(startIndex, text.IndexOf(',', startIndex) - startIndex));
                 startIndex = text.IndexOf('y', startIndex) + 3;
                 float y = (float)Convert.ToDouble(text.Substring(startIndex, text.IndexOf('}', startIndex) - startIndex));
