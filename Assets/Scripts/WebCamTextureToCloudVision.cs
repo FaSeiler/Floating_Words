@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using SimpleJSON;
+using UnityEngine.Networking;
 
 public class WebCamTextureToCloudVision : MonoBehaviour
 {
@@ -14,15 +15,12 @@ public class WebCamTextureToCloudVision : MonoBehaviour
 	public int requestedHeight = 480;
 	public FeatureType featureType = FeatureType.OBJECT_LOCALIZATION;
 	public int maxResults = 10;
-	public GameObject resPanel;
-	public Text responseText, responseArray;
 	public Quaternion baseRotation; //x=90, y=180, z=0
 
-	public JsonParser jp;
+	public JsonParser jasonParser;
 
 	WebCamTexture webcamTexture;
 	Texture2D texture2D;
-	Dictionary<string, string> headers;
 
 	[System.Serializable]
 	public class AnnotateImageRequests
@@ -69,11 +67,9 @@ public class WebCamTextureToCloudVision : MonoBehaviour
 		Screen.sleepTimeout = SleepTimeout.NeverSleep; ; // Stop turning off mobile screen
 
 		GameObject es = GameObject.Find("EventSystem");
-		jp = (JsonParser)es.gameObject.GetComponent(typeof(JsonParser));
+		jasonParser = (JsonParser)es.gameObject.GetComponent(typeof(JsonParser));
 
 		Application.targetFrameRate = 30;
-		headers = new Dictionary<string, string>();
-		headers.Add("Content-Type", "application/json; charset=UTF-8");
 
 		if (apiKey == null || apiKey == "")
 			Debug.LogError("No API key. Please set your API key into the \"Web Cam Texture To Cloud Vision(Script)\" component.");
@@ -114,7 +110,6 @@ public class WebCamTextureToCloudVision : MonoBehaviour
 		}
 	}
 
-	// Update is called once per frame
 	void Update()
 	{
 		transform.rotation = baseRotation * Quaternion.AngleAxis(webcamTexture.videoRotationAngle, Vector3.up);
@@ -130,20 +125,18 @@ public class WebCamTextureToCloudVision : MonoBehaviour
 			yield return new WaitForSeconds(captureIntervalSeconds);
 
 			Color[] pixels = webcamTexture.GetPixels();
+
 			if (pixels.Length == 0)
 				yield return null;
+
 			if (texture2D == null || webcamTexture.width != texture2D.width || webcamTexture.height != texture2D.height)
 			{
 				texture2D = new Texture2D(webcamTexture.width, webcamTexture.height, TextureFormat.RGBA32, false);
 			}
 
 			texture2D.SetPixels(pixels);
-			// texture2D.Apply(false); // Not required. Because we do not need to be uploaded it to GPU
 			byte[] jpg = texture2D.EncodeToJPG();
 			string base64 = System.Convert.ToBase64String(jpg);
-			// #if UNITY_WEBGL	
-			// 			Application.ExternalCall("post", this.gameObject.name, "OnSuccessFromBrowser", "OnErrorFromBrowser", this.url + this.apiKey, base64, this.featureType.ToString(), this.maxResults);
-			// #else
 
 			AnnotateImageRequests requests = new AnnotateImageRequests();
 			requests.requests = new List<AnnotateImageRequest>();
@@ -163,39 +156,47 @@ public class WebCamTextureToCloudVision : MonoBehaviour
 			{
 				string url = this.url + this.apiKey;
 				byte[] postData = System.Text.Encoding.Default.GetBytes(jsonData);
-				using (WWW www = new WWW(url, postData, headers))
-				{
-					yield return www;
-					if (string.IsNullOrEmpty(www.error))
-					{
-						string responses = www.text.Replace("\n", "").Replace(" ", "");
-						JSONNode res = JSON.Parse(responses);
-						string fullText = res["responses"][0]["textAnnotations"][0]["description"].ToString().Trim('"');
-						jp.ExtractInfo(responses);
-						if (fullText != "")
-						{
-							//Debug.Log("OCR Response: " + fullText);
-							resPanel.SetActive(true);
-							responseText.text = fullText.Replace("\\n", " ");
-							fullText = fullText.Replace("\\n", ";");
-							string[] texts = fullText.Split(';');
-							responseArray.text = "";
-							for (int i = 0; i < texts.Length; i++)
-							{
-								responseArray.text += texts[i];
-								if (i != texts.Length - 1)
-									responseArray.text += ", ";
-							}
-						}
-					}
-					else
-					{
-						Debug.Log("Error: " + www.error);
-					}
-				}
+
+				StartCoroutine(SendGCloudRequest(url, postData));
 			}
-			// #endif
 		}
+	}
+
+	IEnumerator SendGCloudRequest(string url, byte[] byteData)
+	{
+		WWWForm form = new WWWForm();
+		form.AddBinaryData("image", byteData, "imagedata.raw");
+		
+		using (UnityWebRequest www = UnityWebRequest.Post(url, form))
+        {
+			www.SetRequestHeader("Content-Type", "application/json; charset=UTF-8");
+			www.uploadHandler = new UploadHandlerRaw(byteData);
+			www.uploadHandler.contentType = "application/json; charset=UTF-8";
+			www.downloadHandler = new DownloadHandlerBuffer();
+
+			yield return www.SendWebRequest();
+			www.uploadHandler.Dispose();
+
+			if (www.result == UnityWebRequest.Result.ConnectionError)
+			{
+				Debug.Log(www.error);
+			}
+			else
+			{
+				string responses = www.downloadHandler.text.Replace("\n", "").Replace(" ", "");
+				www.downloadHandler.Dispose();
+				www.Dispose();
+
+				JSONNode res = JSON.Parse(responses);
+				string fullText = res["responses"][0]["textAnnotations"][0]["description"].ToString().Trim('"');
+				jasonParser.ExtractInfo(responses);
+			}
+
+			www.uploadHandler.Dispose();
+			www.downloadHandler.Dispose();
+			www.Dispose();
+		}
+		
 	}
 
 #if UNITY_WEBGL

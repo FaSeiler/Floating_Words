@@ -32,7 +32,7 @@ public class DrawingBoundingBox : MonoBehaviour
     {
         planex = plane.GetComponent<Renderer>().bounds.size.x;
         planey = plane.GetComponent<Renderer>().bounds.size.y;
-        Debug.Log(plane.GetComponent<Renderer>().bounds.size.ToString());
+        //Debug.Log(plane.GetComponent<Renderer>().bounds.size.ToString());
         ObjList=new List<JsonParser.DetectedObj>();
         SI = (ShowInfo)this.gameObject.GetComponent(typeof(ShowInfo));
     }
