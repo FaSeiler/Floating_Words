@@ -47,15 +47,28 @@ public class JsonParser : MonoBehaviour
             startIndex = text.IndexOf("normalizedVertices", startIndex);
             for (int i = 0; i < 4; i++)
             {
-                startIndex = text.IndexOf("x", startIndex) + 3;
-                Debug.Log(text.Substring(startIndex, text.IndexOf(',', startIndex) - startIndex));
-                float x = (float)Convert.ToDouble(text.Substring(startIndex, text.IndexOf(',', startIndex) - startIndex));
-                startIndex = text.IndexOf('y', startIndex) + 3;
-                float y = (float)Convert.ToDouble(text.Substring(startIndex, text.IndexOf('}', startIndex) - startIndex));
-                //Debug.Log(x);
-                //Debug.Log(y);
-                Vector2 coord = new Vector2(x, y);
-                coords.Add(coord);
+                try
+                {
+                    startIndex = text.IndexOf("x", startIndex) + 3;
+                    Debug.Log(text.Substring(startIndex, text.IndexOf(',', startIndex) - startIndex));
+                
+                    float x = (float)Convert.ToDouble(text.Substring(startIndex, text.IndexOf(',', startIndex) - startIndex));
+                    //float x = (float)double.Parse(text.Substring(startIndex, text.IndexOf(',', startIndex) - startIndex), System.Globalization.NumberFormatInfo.InvariantInfo);
+                    startIndex = text.IndexOf('y', startIndex) + 3;
+                    //float y = (float)double.Parse(text.Substring(startIndex, text.IndexOf('}', startIndex) - startIndex),System.Globalization.NumberFormatInfo.InvariantInfo);
+                    float y = (float)Convert.ToDouble(text.Substring(startIndex, text.IndexOf('}', startIndex) - startIndex));
+
+                    //Debug.Log(x);
+                    //Debug.Log(y);
+                    Vector2 coord = new Vector2(x, y);
+                    coords.Add(coord);
+                }
+                catch (FormatException)
+                {
+                    Debug.Log("Incorrect format of input, getting new data next iteration");
+                    Vector2 coord = new Vector2(0.5f, 0.5f);
+                    coords.Add(coord);
+                }
             }
             DetectedObj newDectedObj = new DetectedObj(label, coords);
             newDectedObjList.Add(newDectedObj);
