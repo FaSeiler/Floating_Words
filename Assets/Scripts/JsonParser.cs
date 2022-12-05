@@ -6,8 +6,11 @@ using TMPro;
 
 public class JsonParser : MonoBehaviour
 {
-    private DrawingBoundingBox DBB;
-    private ShowInfo SI;
+    public DrawingBoundingBox DBB;
+    public ShowInfo SI;
+
+    public TextMeshProUGUI debugText;
+
     public struct DetectedObj
     {
         public DetectedObj(string label, List<Vector2> coords)
@@ -26,15 +29,12 @@ public class JsonParser : MonoBehaviour
         public Vector2 UL { get; set; }
 
     }
-    void Start()
-    {
-        DBB = (DrawingBoundingBox)this.gameObject.GetComponent(typeof(DrawingBoundingBox));
-        SI = (ShowInfo)this.gameObject.GetComponent(typeof(ShowInfo));
-    }
+
     public void ExtractInfo(string text)
     {
         SI.CleanAll();
         Debug.Log(text);
+        debugText.text = text;
         int startIndex = 0;
         List <DetectedObj> newDectedObjList = new List <DetectedObj>();
         while (text.IndexOf("name", startIndex) != -1)

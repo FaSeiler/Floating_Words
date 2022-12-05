@@ -14,8 +14,6 @@ public class WebCamTextureToCloudVision : MonoBehaviour
 	public int requestedHeight = 480;
 	public FeatureType featureType = FeatureType.OBJECT_LOCALIZATION;
 	public int maxResults = 10;
-	public GameObject resPanel;
-	public Text responseText, responseArray;
 	public Quaternion baseRotation; //x=90, y=180, z=0
 
 	public JsonParser jp;
@@ -67,9 +65,6 @@ public class WebCamTextureToCloudVision : MonoBehaviour
 	void Start()
 	{
 		Screen.sleepTimeout = SleepTimeout.NeverSleep; ; // Stop turning off mobile screen
-
-		GameObject es = GameObject.Find("EventSystem");
-		jp = (JsonParser)es.gameObject.GetComponent(typeof(JsonParser));
 
 		Application.targetFrameRate = 30;
 		headers = new Dictionary<string, string>();
@@ -172,21 +167,6 @@ public class WebCamTextureToCloudVision : MonoBehaviour
 						JSONNode res = JSON.Parse(responses);
 						string fullText = res["responses"][0]["textAnnotations"][0]["description"].ToString().Trim('"');
 						jp.ExtractInfo(responses);
-						if (fullText != "")
-						{
-							//Debug.Log("OCR Response: " + fullText);
-							resPanel.SetActive(true);
-							responseText.text = fullText.Replace("\\n", " ");
-							fullText = fullText.Replace("\\n", ";");
-							string[] texts = fullText.Split(';');
-							responseArray.text = "";
-							for (int i = 0; i < texts.Length; i++)
-							{
-								responseArray.text += texts[i];
-								if (i != texts.Length - 1)
-									responseArray.text += ", ";
-							}
-						}
 					}
 					else
 					{

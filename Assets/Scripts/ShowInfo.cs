@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class ShowInfo : MonoBehaviour
 {
-    public Canvas canv;
+    public GameObject labelParentGO;
     public GameObject Textprefab;
     
     public void ShowLabel(string label,Vector2 center)
@@ -14,18 +14,18 @@ public class ShowInfo : MonoBehaviour
         GameObject newText= Instantiate(Textprefab, new Vector2(0,0), Quaternion.identity);
 
         //TODO : optimize the code
-        newText.transform.SetParent(canv.gameObject.transform);
+        newText.transform.SetParent(labelParentGO.transform);
         newText.transform.localScale = new Vector3(
-        newText.transform.localScale.x * canv.gameObject.transform.localScale.x,
-        newText.transform.localScale.y * canv.gameObject.transform.localScale.y,
-        newText.transform.localScale.z * canv.gameObject.transform.localScale.z);
+        newText.transform.localScale.x * labelParentGO.transform.localScale.x,
+        newText.transform.localScale.y * labelParentGO.transform.localScale.y,
+        newText.transform.localScale.z * labelParentGO.transform.localScale.z);
 
         newText.transform.position = center;
         newText.GetComponent<TMP_Text>().text=label;
     }
     public void CleanAll()
     {
-        foreach (Transform child in canv.transform)
+        foreach (Transform child in labelParentGO.transform)
         {
             GameObject.Destroy(child.gameObject);
         }

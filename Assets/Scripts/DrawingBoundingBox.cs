@@ -34,11 +34,16 @@ public class DrawingBoundingBox : MonoBehaviour
         planey = plane.GetComponent<Renderer>().bounds.size.y;
         Debug.Log(plane.GetComponent<Renderer>().bounds.size.ToString());
         ObjList=new List<JsonParser.DetectedObj>();
-        SI = (ShowInfo)this.gameObject.GetComponent(typeof(ShowInfo));
     }
     public void setobj(List <JsonParser.DetectedObj> newobjList)
     {
+        if (ObjList == null)
+        {
+            return;
+        }
+        
         ObjList.Clear();
+        
         foreach (JsonParser.DetectedObj obj in newobjList.ToArray())
         {
             JsonParser.DetectedObj newObj = obj;
