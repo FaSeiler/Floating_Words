@@ -16,6 +16,8 @@ public class WebCamTextureToCloudVision : MonoBehaviour
 	public int maxResults = 10;
 	public Quaternion baseRotation; //x=90, y=180, z=0
 
+	public static byte[] jpg;
+
 	public JsonParser jp;
 
 	WebCamTexture webcamTexture;
@@ -134,7 +136,7 @@ public class WebCamTextureToCloudVision : MonoBehaviour
 
 			texture2D.SetPixels(pixels);
 			// texture2D.Apply(false); // Not required. Because we do not need to be uploaded it to GPU
-			byte[] jpg = texture2D.EncodeToJPG();
+			jpg = texture2D.EncodeToJPG();
 			string base64 = System.Convert.ToBase64String(jpg);
 			// #if UNITY_WEBGL	
 			// 			Application.ExternalCall("post", this.gameObject.name, "OnSuccessFromBrowser", "OnErrorFromBrowser", this.url + this.apiKey, base64, this.featureType.ToString(), this.maxResults);
