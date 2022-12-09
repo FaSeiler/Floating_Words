@@ -11,6 +11,8 @@ public class ShowInfo : MonoBehaviour
 {
     public Canvas canv;
     public GameObject Textprefab;
+    public GameObject DropdownPrefab;
+
     
     public void ShowLabel(string label,Vector2 center)
     {
@@ -21,22 +23,27 @@ public class ShowInfo : MonoBehaviour
                 Debug.Log(translatedText);
 
                 GameObject newText= Instantiate(Textprefab, new Vector2(0,0), Quaternion.identity);
+                GameObject dropdown_menu = Instantiate(DropdownPrefab, new Vector2(0,0), Quaternion.identity);
 
                 //TODO : optimize the code
                 newText.transform.SetParent(canv.gameObject.transform);
+
+                dropdown_menu.transform.SetParent(canv.gameObject.transform);
+
                 newText.transform.localScale = new Vector3(
                 newText.transform.localScale.x * canv.gameObject.transform.localScale.x,
                 newText.transform.localScale.y * canv.gameObject.transform.localScale.y,
                 newText.transform.localScale.z * canv.gameObject.transform.localScale.z);
 
                 newText.transform.position = center;
-                //newText.GetComponent<TMP_Text>().text=label;
+                dropdown_menu.transform.position = center;
                 newText.GetComponent<TMP_Text>().text=translatedText;
             }
         });
 
 
     }
+    
 
     public void TranslateText(string sourceLanguage, string targetLanguage, string sourceText, Action<bool, string> callback)
     {
