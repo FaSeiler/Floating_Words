@@ -1119,7 +1119,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 285340454367514801}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1566335511}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: ShowDictionary
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &285340454377751434
 GameObject:
   m_ObjectHideFlags: 0
@@ -1241,6 +1253,8 @@ GameObject:
   - component: {fileID: 285340454399473277}
   - component: {fileID: 285340454399473276}
   - component: {fileID: 285340454399473267}
+  - component: {fileID: 1566335511}
+  - component: {fileID: 3723637977142359474}
   m_Layer: 5
   m_Name: SettingMenu
   m_TagString: Untagged
@@ -1332,6 +1346,35 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &1566335511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 285340454399473266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c9cfb0983bc0904586c40ba9e746eea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  settingButton: {fileID: 1411514543}
+  mainSettings: {fileID: 285340454290781655}
+  dictionaryMenu: {fileID: 285340454738355101}
+--- !u!114 &3723637977142359474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 285340454399473266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6aa6bf1632600104e8bf66786bc31546, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selected_language: 
+  dropdown: {fileID: 285340454050034338}
 --- !u!1 &285340454421311709
 GameObject:
   m_ObjectHideFlags: 0
@@ -2619,7 +2662,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 285340455458501375}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1566335511}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: CloseDictionary
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &285340455478332801
 GameObject:
   m_ObjectHideFlags: 0
@@ -2876,7 +2931,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 285340455498193034}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1566335511}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: CloseFromMain
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &285340455624057484
 GameObject:
   m_ObjectHideFlags: 0
@@ -3493,4 +3560,16 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1185066098613866516}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1566335511}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: ShowSettings
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

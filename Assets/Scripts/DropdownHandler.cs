@@ -2,15 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class DropdownHandler : MonoBehaviour
 {
     public string selected_language;
+    public TMP_Dropdown dropdown;
 
 
     void Start()
     {
-        var dropdown = transform.GetComponent<Dropdown>();
         dropdown.options.Clear();
 
         List<string> items = new List<string>();
@@ -20,32 +21,39 @@ public class DropdownHandler : MonoBehaviour
         items.Add("Japanese");
         items.Add("Spanish");
         items.Add("French");
-        
-        foreach(var item in items)
+
+        foreach (var item in items)
         {
-            dropdown.options.Add(new Dropdown.OptionData() {text = item});
+            //dropdown.options.Add(new Dropdown.OptionData() { text = item });
+            dropdown.options.Add(new TMP_Dropdown.OptionData() { text = item });
         }
 
-        dropdown.onValueChanged.AddListener(delegate {DropdownItemSelected(dropdown);});
+        dropdown.onValueChanged.AddListener(delegate { DropdownItemSelected(dropdown); });
     }
 
-    void DropdownItemSelected(Dropdown dropdown)
+    void DropdownItemSelected(TMP_Dropdown dropdown)
     {
         int index = dropdown.value;
 
         switch (index)
         {
-            case 0: selected_language = "en"; 
+            case 0:
+                selected_language = "en";
                 break;
-            case 1: selected_language = "de"; 
+            case 1:
+                selected_language = "de";
                 break;
-            case 2: selected_language = "cn"; 
+            case 2:
+                selected_language = "cn";
                 break;
-            case 3: selected_language = "jp"; 
+            case 3:
+                selected_language = "jp";
                 break;
-            case 4: selected_language = "es"; 
+            case 4:
+                selected_language = "es";
                 break;
-            case 5: selected_language = "fr"; 
+            case 5:
+                selected_language = "fr";
                 break;
         }
         Debug.Log(selected_language);
