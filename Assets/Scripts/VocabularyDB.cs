@@ -3,12 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System.Linq;
+
 public class VocabularyDB : MonoBehaviour
 {
+    public enum LanguageMode // maybe add more
+    {
+        english,
+        german,
+        chinese,
+        japanese,
+        spanish,
+        french
+    }
+
+    public static LanguageMode activeLanguageMode = LanguageMode.german;
     string path;
     string Doc;
-    static public string mode="Deu"; 
+
     Dictionary<string, Info> Vocabulary = new Dictionary<string, Info>();
+
+    // Fabi to Wang: use following Datastructure for the Dictionary (key:string = english word):
+    //Dictionary<string, Word> Vocabulary = new Dictionary<string, Word>();
 
     public struct Info
     {
@@ -40,11 +55,12 @@ public class VocabularyDB : MonoBehaviour
             File.Create(path + "\\Cn.txt");
         }
 
-        StreamReader sr = new StreamReader(path + "\\" + mode + ".txt");
+        StreamReader sr = new StreamReader(path + "\\" + activeLanguageMode.ToString() + ".txt");
         string line;
         while ((line = sr.ReadLine()) != null)
         {
             string[] split = line.Split(';');
+
             Info info = new Info();
             string[] infosplit = line.Split('_');
             info.word = split[0];
@@ -70,7 +86,7 @@ public class VocabularyDB : MonoBehaviour
 
     public void SaveCapture(string word)
     {
-        string picName = mode + "_" + word;
+        string picName = activeLanguageMode.ToString() + "_" + word;
         File.WriteAllBytes(path+ "/" + picName, WebCamTextureToCloudVision.jpg);
     }
     
@@ -81,7 +97,7 @@ public class VocabularyDB : MonoBehaviour
 
     public void UpdateDoc()
     {
-        Doc = path + "\\" + mode + ".txt";
+        Doc = path + "\\" + activeLanguageMode.ToString() + ".txt";
     }
 
     public void OnApplicationQuit()

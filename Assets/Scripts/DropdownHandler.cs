@@ -39,23 +39,30 @@ public class DropdownHandler : MonoBehaviour
         {
             case 0:
                 selected_language = "en";
+                VocabularyDB.activeLanguageMode = VocabularyDB.LanguageMode.english;
                 break;
             case 1:
                 selected_language = "de";
+                VocabularyDB.activeLanguageMode = VocabularyDB.LanguageMode.german;
                 break;
             case 2:
                 selected_language = "cn";
+                VocabularyDB.activeLanguageMode = VocabularyDB.LanguageMode.chinese;
                 break;
             case 3:
                 selected_language = "jp";
+                VocabularyDB.activeLanguageMode = VocabularyDB.LanguageMode.japanese;
                 break;
             case 4:
                 selected_language = "es";
+                VocabularyDB.activeLanguageMode = VocabularyDB.LanguageMode.spanish;
                 break;
             case 5:
                 selected_language = "fr";
+                VocabularyDB.activeLanguageMode = VocabularyDB.LanguageMode.french;
                 break;
         }
+
         Debug.Log(selected_language);
     }
 
