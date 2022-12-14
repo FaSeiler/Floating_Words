@@ -68,9 +68,10 @@ public class ShowInfo : MonoBehaviour
 
     public void CleanAll()
     {
-        foreach (Transform child in canv.transform)
-        {
-            GameObject.Destroy(child.gameObject);
-        }
+        // TODO: Rework labels are now not on canvas but attached to 3D anchors!
+        //foreach (Transform child in canv.transform)
+        //{
+        //    GameObject.Destroy(child.gameObject);
+        //}
     }
 }
