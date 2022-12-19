@@ -29,6 +29,8 @@ public class DropdownHandler : MonoBehaviour
         }
 
         dropdown.onValueChanged.AddListener(delegate { DropdownItemSelected(dropdown); });
+
+        dropdown.value = (int)VocabularyDB.activeLanguageMode;
     }
 
     void DropdownItemSelected(TMP_Dropdown dropdown)
