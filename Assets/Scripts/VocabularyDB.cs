@@ -20,25 +20,26 @@ public class VocabularyDB : MonoBehaviour
     string path;
     string Doc;
 
-    Dictionary<string, Info> Vocabulary = new Dictionary<string, Info>();
+    //Dictionary<string, Info> Vocabulary = new Dictionary<string, Info>();
 
-    // Fabi to Wang: use following Datastructure for the Dictionary (key:string = english word):
-    //Dictionary<string, Word> Vocabulary = new Dictionary<string, Word>();
+    // Fabi to Wang: use following Datastructure for the Dictionary (key<string> == word_english):
+    public Dictionary<string, Word> vocabulary = new Dictionary<string, Word>();
 
-    public struct Info
-    {
-        public string word;
-        public bool Learnt;
-        public string pic;//base 64
+    //public struct Info
+    //{
+    //    public string word;
+    //    public bool Learnt;
+    //    public string pic;//base 64
 
-        public override string ToString()
-        {
-            if (pic == null)
-                return word + "_" + Learnt;
-            else
-                return word + "_" + Learnt + "_" + pic;
-        }
-    }
+    //    public override string ToString()
+    //    {
+    //        if (pic == null)
+    //            return word + "_" + Learnt;
+    //        else
+    //            return word + "_" + Learnt + "_" + pic;
+    //    }
+    //}
+
     void Start()
     {
         path = Application.persistentDataPath;
@@ -57,31 +58,39 @@ public class VocabularyDB : MonoBehaviour
 
         StreamReader sr = new StreamReader(path + "\\" + activeLanguageMode.ToString() + ".txt");
         string line;
-        while ((line = sr.ReadLine()) != null)
-        {
-            string[] split = line.Split(';');
+        //while ((line = sr.ReadLine()) != null)
+        //{
+        //    string[] split = line.Split(';');
 
-            Info info = new Info();
-            string[] infosplit = line.Split('_');
-            info.word = split[0];
-            info.Learnt = bool.Parse(split[1]);
-            if (split.Length > 2)
-                info.pic = split[2];
-            Vocabulary.Add(split[0], info);
-        }
+        //    Info info = new Info();
+        //    string[] infosplit = line.Split('_');
+        //    info.word = split[0];
+        //    info.Learnt = bool.Parse(split[1]);
+        //    if (split.Length > 2)
+        //        info.pic = split[2];
+        //    Vocabulary.Add(split[0], info);
+        //}
+
+
+
+        /// Fabi: EXAMPLE of how a word is created. Note that all translations should be already initialized
+        /// when the word is created.
+        /// TODO: Delete the following lines later
+        Word newWord = new Word("Example", "Beispiel", "_", "_", "_", "_", null, true);
+        vocabulary.Add(newWord.english, newWord);
     }
     public void StoreNewWord(string Engword,string Translation)
     {
-        Info info= new Info();
-        info.word = Translation;
-        info.Learnt = false;
-        Vocabulary.Add(Engword, info);
+        //Info info= new Info();
+        //info.word = Translation;
+        //info.Learnt = false;
+        //Vocabulary.Add(Engword, info);
     }
     public void LearnTheWord(string Engword)
     {
-        Info newInfo = Vocabulary[Engword];
-        newInfo.Learnt = true;
-        Vocabulary[Engword] = newInfo;
+        //Info newInfo = Vocabulary[Engword];
+        //newInfo.Learnt = true;
+        //Vocabulary[Engword] = newInfo;
     }
 
     public void SaveCapture(string word)
@@ -103,7 +112,7 @@ public class VocabularyDB : MonoBehaviour
     public void OnApplicationQuit()
     {
         StreamWriter sw = new StreamWriter(Doc);
-        for (int i= 0; i < Vocabulary.Count; i++)
-            sw.WriteLine(Vocabulary.ElementAt(i).Key + ";" + Vocabulary.ElementAt(i).Value.ToString());
+        for (int i= 0; i < vocabulary.Count; i++)
+            sw.WriteLine(vocabulary.ElementAt(i).Key + ";" + vocabulary.ElementAt(i).Value.ToString());
     }
 }

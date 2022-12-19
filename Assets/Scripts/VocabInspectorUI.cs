@@ -4,6 +4,10 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
+/// <summary>
+/// This UI component displays detailed information about a vocab.
+/// This inspector is opened by clicking on a vocab entry in the dictionary UI
+/// </summary>
 public class VocabInspectorUI : MonoBehaviour
 {
     public GameObject childGO;
@@ -56,7 +60,7 @@ public class VocabInspectorUI : MonoBehaviour
                 break;
         }
 
-        word_definition_text.text = newWord.definition;
+        word_definition_text.text = newWord.wordInfo.definition;
         word_screenshot.sprite = newWord.screenshot;
     }
 
