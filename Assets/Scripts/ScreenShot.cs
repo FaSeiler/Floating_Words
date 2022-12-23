@@ -1,27 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ScreenShot : MonoBehaviour
 {
     public Hashtable pictures = new Hashtable();
-    // Start is called before the first frame update
-    void Start()
-    {
-        Capture("name1");
-        PathOfImage("name1");
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public Image dictionaryImage;
 
     public void Capture(string word)
     {
-        string tempName = System.DateTime.Now.ToString().Replace("-", "_").Replace(":", "_");
-        ScreenCapture.CaptureScreenshot(Application.dataPath + "/" + tempName + ".png");
+        string tempName = word;
+        ScreenCapture.CaptureScreenshot(Application.dataPath + "/Resources/" + tempName + ".png");
         Debug.Log("Captured");
         pictures.Add(word, tempName + ".png");
     }
@@ -36,18 +26,11 @@ public class ScreenShot : MonoBehaviour
 
     public string PathOfImage(string word)
     {
-        return Application.dataPath+"/"+pictures[word].ToString();   
+        return Application.dataPath+"/Resources/"+word+".png";   
     }
 
-    //way to assign image to Image with url
-    //public Image img;
-
-    //// The source image
-    //public string url = "kkkkkkkkk";
-    //IEnumerator Start()
-    //{
-    //    WWW www = new WWW(url);
-    //    yield return www;
-    //    img.sprite = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), new Vector2(0, 0));
-    //}
+    public void AssignToDictionary(string word)
+    {
+        dictionaryImage.sprite = Resources.Load<Sprite>("name1");
+    }
 }
