@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class ScreenShot : MonoBehaviour
 {
-    public Hashtable pictures = new Hashtable();
     public Image dictionaryImage;
 
     public void Capture(string word)
@@ -13,15 +12,6 @@ public class ScreenShot : MonoBehaviour
         string tempName = word;
         ScreenCapture.CaptureScreenshot(Application.dataPath + "/Resources/" + tempName + ".png");
         Debug.Log("Captured");
-        pictures.Add(word, tempName + ".png");
-    }
-
-    public void RemoveImage(string word)
-    {
-        if (pictures.ContainsKey(word))
-        {
-            pictures.Remove(word);
-        }
     }
 
     public string PathOfImage(string word)
@@ -31,6 +21,6 @@ public class ScreenShot : MonoBehaviour
 
     public void AssignToDictionary(string word)
     {
-        dictionaryImage.sprite = Resources.Load<Sprite>("name1");
+        dictionaryImage.sprite = Resources.Load<Sprite>(word);
     }
 }
