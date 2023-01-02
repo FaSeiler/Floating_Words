@@ -17,8 +17,24 @@ public class VocabInspectorUI : MonoBehaviour
     public TextMeshProUGUI word_en_text;
     public TextMeshProUGUI word_translation_text;
     public TextMeshProUGUI word_definition_text;
+    public TextMeshProUGUI word_partOfSpeech_text;
+    public Button playAudio_button;
     public Image word_screenshot;
 
+    void Start()
+    {
+        playAudio_button.onClick.AddListener(PlayWordAudio);
+    }
+
+    public void PlayWordAudio()
+    {
+        if (activeWord.wordInfo.audioURL == null)
+        {
+            return;
+        }
+
+        Application.OpenURL(activeWord.wordInfo.audioURL);
+    }
 
     public void OpenVocabInspector(Word word)
     {
@@ -34,6 +50,16 @@ public class VocabInspectorUI : MonoBehaviour
 
     void UpdateVocabInspectorUI(Word newWord)
     {
+        // Don't show audio button when there is no audio URL
+        if (newWord.wordInfo.audioURL == null) 
+        {
+            playAudio_button.gameObject.SetActive(false);
+        }
+        else
+        {
+            playAudio_button.gameObject.SetActive(true);
+        }
+
         word_en_text.text = newWord.english;
 
         switch (VocabularyDB.activeLanguageMode)
@@ -61,7 +87,7 @@ public class VocabInspectorUI : MonoBehaviour
         }
 
         word_definition_text.text = newWord.wordInfo.definition;
+        word_partOfSpeech_text.text = newWord.wordInfo.partOfSpeech;
         word_screenshot.sprite = newWord.screenshot;
     }
-
 }
