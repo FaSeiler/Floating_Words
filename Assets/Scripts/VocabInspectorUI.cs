@@ -88,6 +88,6 @@ public class VocabInspectorUI : MonoBehaviour
 
         word_definition_text.text = newWord.wordInfo.definition;
         word_partOfSpeech_text.text = newWord.wordInfo.partOfSpeech;
-        word_screenshot.sprite = newWord.screenshot;
+        ScreenShot.instance.AssignToDictionary(newWord.english);
     }
 }

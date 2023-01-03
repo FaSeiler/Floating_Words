@@ -5,7 +5,13 @@ using UnityEngine.UI;
 
 public class ScreenShot : MonoBehaviour
 {
+    public static ScreenShot instance;
     public Image dictionaryImage;
+
+    private void Start()
+    {
+        instance = this;
+    }
 
     public void Capture(string word)
     {
