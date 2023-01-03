@@ -30,9 +30,9 @@ public class DrawingBoundingBox : MonoBehaviour
     }
     void Start()
     {
-        planex = plane.GetComponent<Renderer>().bounds.size.x;
-        planey = plane.GetComponent<Renderer>().bounds.size.y;
-        Debug.Log(plane.GetComponent<Renderer>().bounds.size.ToString());
+        //planex = plane.GetComponent<Renderer>().bounds.size.x;
+        //planey = plane.GetComponent<Renderer>().bounds.size.y;
+        //Debug.Log(plane.GetComponent<Renderer>().bounds.size.ToString());
         ObjList=new List<JsonParser.DetectedObj>();
     }
     public void setobj(List <JsonParser.DetectedObj> newobjList)
@@ -58,45 +58,45 @@ public class DrawingBoundingBox : MonoBehaviour
         }
     }
     //Will be called after all regular rendering is done
-    public void OnRenderObject()
-    {
-        CreateLineMaterial();
+    //public void OnRenderObject()
+    //{
+    //    CreateLineMaterial();
 
-        GL.PushMatrix();
-        // Apply the line material
-        lineMaterial.SetPass(0);
-        // Set transformation matrix for drawing to
-        // match our transform
-        //GL.LoadOrtho();
-        //GL.MultMatrix(transform.localToWorldMatrix);
-        //Debug.Log(transform.localToWorldMatrix.ToString());
+    //    GL.PushMatrix();
+    //    // Apply the line material
+    //    lineMaterial.SetPass(0);
+    //    // Set transformation matrix for drawing to
+    //    // match our transform
+    //    //GL.LoadOrtho();
+    //    //GL.MultMatrix(transform.localToWorldMatrix);
+    //    //Debug.Log(transform.localToWorldMatrix.ToString());
       
-        GL.Begin(GL.LINES);  // Draw lines
+    //    GL.Begin(GL.LINES);  // Draw lines
 
-        GL.Color(new Color(1.0f, 0.0f, 0.0f, 1.0f)); // Vertex colors change from red to green
+    //    GL.Color(new Color(1.0f, 0.0f, 0.0f, 1.0f)); // Vertex colors change from red to green
 
 
 
-        // One vertex at transform position
+    //    // One vertex at transform position
 
-        foreach (JsonParser.DetectedObj obj in ObjList.ToArray())
-        {
-            GL.Vertex(obj.BL);
-            GL.Vertex(obj.BR);
+    //    foreach (JsonParser.DetectedObj obj in ObjList.ToArray())
+    //    {
+    //        GL.Vertex(obj.BL);
+    //        GL.Vertex(obj.BR);
 
-            GL.Vertex(obj.BR);
-            GL.Vertex(obj.UR);
+    //        GL.Vertex(obj.BR);
+    //        GL.Vertex(obj.UR);
 
-            GL.Vertex(obj.UR);
-            GL.Vertex(obj.UL);
+    //        GL.Vertex(obj.UR);
+    //        GL.Vertex(obj.UL);
 
-            GL.Vertex(obj.UL);
-            GL.Vertex(obj.BL);
-        }
+    //        GL.Vertex(obj.UL);
+    //        GL.Vertex(obj.BL);
+    //    }
 
-        GL.End();
-        GL.PopMatrix();
-    }
+    //    GL.End();
+    //    GL.PopMatrix();
+    //}
 
    
    // private void OnPostRender()

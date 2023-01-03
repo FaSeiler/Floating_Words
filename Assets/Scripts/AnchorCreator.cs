@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARSubsystems;
 
@@ -31,8 +32,10 @@ namespace UnityEngine.XR.ARFoundation.Samples
 
         void Awake()
         {
+            
             m_RaycastManager = GetComponent<ARRaycastManager>();
             m_AnchorManager = GetComponent<ARAnchorManager>();
+            
         }
 
         void SetAnchorText(ARAnchor anchor, string text)
@@ -54,7 +57,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
                 var planeManager = GetComponent<ARPlaneManager>();
                 if (planeManager)
                 {
-                    Logger.Log("Creating anchor attachment.");
+                    //Logger.Log("Creating anchor attachment.");
                     var oldPrefab = m_AnchorManager.anchorPrefab;
                     m_AnchorManager.anchorPrefab = prefab;
                     anchor = m_AnchorManager.AttachAnchor(plane, hit.pose);
@@ -65,7 +68,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
             }
 
             // Otherwise, just create a regular anchor at the hit pose
-            Logger.Log("Creating regular anchor.");
+            //Logger.Log("Creating regular anchor.");
 
             GameObject gameObject = null;
 
@@ -92,41 +95,65 @@ namespace UnityEngine.XR.ARFoundation.Samples
             return anchor;
         }
 
-        void Update()
+
+        public void CreateAnchorWithDepth(Vector2 center, string lable)
         {
-            if (Input.touchCount == 0)
-                return;
-
-            var touch = Input.GetTouch(0);
-            if (touch.phase != TouchPhase.Began)
-                return;
-
-            // Raycast against planes and feature points
-            const TrackableType trackableTypes =
-                TrackableType.PlaneWithinPolygon |
-                TrackableType.FeaturePoint;
-
-            // Perform the raycast
-            if (m_RaycastManager.Raycast(touch.position, s_Hits, trackableTypes))
+            ARAnchor anchor = null;
+            
+            if (m_RaycastManager.Raycast(center, s_Hits, TrackableType.AllTypes))
             {
-                // Raycast hits are sorted by distance, so the first one will be the closest hit.
+                Debug.Log(center.ToString() + "  " + lable);
                 var hit = s_Hits[0];
-
-                // Create a new anchor
-                var anchor = CreateAnchor(hit);
-                if (anchor)
+                GameObject gameObject = Instantiate(prefab, hit.pose.position, hit.pose.rotation);
+                anchor = gameObject.GetComponent<ARAnchor>();
+                if (anchor == null)
                 {
-                    // Remember the anchor so we can remove it later.
-                    m_Anchors.Add(anchor);
+                    anchor = gameObject.AddComponent<ARAnchor>();
                 }
-                else
-                {
-                    Logger.Log("Error creating anchor");
-                }
+                //m_Anchors.Add(anchor);
+                SetAnchorText(anchor, lable);
+                return;
+                
             }
         }
 
-        static List<ARRaycastHit> s_Hits = new List<ARRaycastHit>();
+        void Update()
+        {
+            //if (Input.touchCount == 0)
+            //    return;
+
+            //var touch = Input.GetTouch(0);
+            //Logger.Log(touch.position.ToString());
+            //if (touch.phase != TouchPhase.Began)
+            //    return;
+
+            //// Raycast against planes and feature points
+            //const TrackableType trackableTypes =
+            //    TrackableType.PlaneWithinPolygon |
+            //    TrackableType.FeaturePoint;
+
+            //// Perform the raycast
+            //if (m_RaycastManager.Raycast(touch.position, s_Hits, trackableTypes))
+            //{
+            //    // Raycast hits are sorted by distance, so the first one will be the closest hit.
+            //    var hit = s_Hits[0];
+
+            //    // Create a new anchor
+            //    var anchor = CreateAnchor(hit);
+            //    if (anchor)
+            //    {
+            //        // Remember the anchor so we can remove it later.
+            //        m_Anchors.Add(anchor);
+            //    }
+            //    else
+            //    {
+            //        Logger.Log("Error creating anchor");
+            //    }
+            //}
+        }
+
+
+        public static List<ARRaycastHit> s_Hits = new List<ARRaycastHit>();
 
         public List<ARAnchor> m_Anchors = new List<ARAnchor>();
 

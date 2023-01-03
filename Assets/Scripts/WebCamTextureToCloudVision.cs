@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using SimpleJSON;
+using UnityEngine.XR.ARFoundation;
 
 public class WebCamTextureToCloudVision : MonoBehaviour
 {
@@ -15,11 +16,13 @@ public class WebCamTextureToCloudVision : MonoBehaviour
 	public FeatureType featureType = FeatureType.OBJECT_LOCALIZATION;
 	public int maxResults = 10;
 	public Quaternion baseRotation; //x=90, y=180, z=0
+	public GameObject ARSessionObj;
+	public ARSession my_ARSession;
 
 	public static byte[] jpg;
 
 	public JsonParser jp;
-
+	WebCamDevice[] devices;
 	WebCamTexture webcamTexture;
 	Texture2D texture2D;
 	Dictionary<string, string> headers;
@@ -68,14 +71,16 @@ public class WebCamTextureToCloudVision : MonoBehaviour
 	{
 		Screen.sleepTimeout = SleepTimeout.NeverSleep; ; // Stop turning off mobile screen
 
+		my_ARSession = ARSessionObj.gameObject.GetComponent<ARSession>();
 		Application.targetFrameRate = 30;
+
 		headers = new Dictionary<string, string>();
 		headers.Add("Content-Type", "application/json; charset=UTF-8");
 
 		if (apiKey == null || apiKey == "")
 			Debug.LogError("No API key. Please set your API key into the \"Web Cam Texture To Cloud Vision(Script)\" component.");
 
-		WebCamDevice[] devices = WebCamTexture.devices;
+		devices = WebCamTexture.devices;
 		for (var i = 0; i < devices.Length; i++)
 		{
 			Resolution[] resolutionsAvailable = devices[i].availableResolutions;
@@ -97,6 +102,10 @@ public class WebCamTextureToCloudVision : MonoBehaviour
 		if (devices.Length > 0)
 		{
 			webcamTexture = new WebCamTexture(devices[0].name, requestedWidth, requestedHeight);
+			//wang's phone: devices[0] makes the camera2 device disconncted
+			//wang's phone: devices[1] front camera, black screen but api works
+			//wang's phone: devices[2] black screen, timeout while trying to pause the unity engine.
+			//wang's phone: devices[3] black screen, back camera, 
 			Renderer r = GetComponent<Renderer>();
 			if (r != null)
 			{
@@ -106,15 +115,17 @@ public class WebCamTextureToCloudVision : MonoBehaviour
 					m.mainTexture = webcamTexture;
 				}
 			}
-			webcamTexture.Play();
-			StartCoroutine("Capture");
 		}
+		StartCoroutine("Capture");
 	}
 
 	// Update is called once per frame
 	void Update()
 	{
-		transform.rotation = baseRotation * Quaternion.AngleAxis(webcamTexture.videoRotationAngle, Vector3.up);
+		if (webcamTexture!=null && webcamTexture.isPlaying)
+		{
+			transform.rotation = baseRotation * Quaternion.AngleAxis(webcamTexture.videoRotationAngle, Vector3.up);
+		}
 	}
 
 	private IEnumerator Capture()
@@ -126,13 +137,28 @@ public class WebCamTextureToCloudVision : MonoBehaviour
 
 			yield return new WaitForSeconds(captureIntervalSeconds);
 
+			//EnableNormalCamera
+			my_ARSession.enabled = false;
+			
+			webcamTexture = new WebCamTexture(devices[0].name, requestedWidth, requestedHeight);
+			webcamTexture.Play();
+
 			Color[] pixels = webcamTexture.GetPixels();
+			
 			if (pixels.Length == 0)
+			{
 				yield return null;
+			}
+
 			if (texture2D == null || webcamTexture.width != texture2D.width || webcamTexture.height != texture2D.height)
 			{
 				texture2D = new Texture2D(webcamTexture.width, webcamTexture.height, TextureFormat.RGBA32, false);
 			}
+			//EnableARCamera
+			webcamTexture.Stop();
+			Destroy(webcamTexture);
+			my_ARSession.enabled = true;
+			
 
 			texture2D.SetPixels(pixels);
 			// texture2D.Apply(false); // Not required. Because we do not need to be uploaded it to GPU
@@ -176,9 +202,12 @@ public class WebCamTextureToCloudVision : MonoBehaviour
 					}
 				}
 			}
+
 			// #endif
 		}
 	}
+
+
 
 #if UNITY_WEBGL
 	void OnSuccessFromBrowser(string jsonString) {
@@ -190,4 +219,5 @@ public class WebCamTextureToCloudVision : MonoBehaviour
 	}
 #endif
 
-}
+
+	}
