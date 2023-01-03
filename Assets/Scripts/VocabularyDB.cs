@@ -86,9 +86,76 @@ public class VocabularyDB : MonoBehaviour
         vocabulary.Add(newWord2.english, newWord2);
         vocabulary.Add(newWord3.english, newWord3);
         vocabulary.Add(newWord4.english, newWord4);
+        idx = -1;
     }
+
+    private int idx = 0;
+    public void DebugAddWord()
+    {
+        if (idx == -1)
+        {
+            return;
+        }
+
+        if (idx==0)
+        {
+            Word newWord = new Word("Example", "Beispiel", "_", "_", "_", "_", null, true);
+            vocabulary.Add(newWord.english, newWord);
+            idx++;
+            PrintVocabulary();
+            return;
+        }
+        if (idx==1)
+        {
+            Word newWord1 = new Word("Loudspeaker", "Lautsprecher", "_", "_", "_", "_", null, true);
+            vocabulary.Add(newWord1.english, newWord1);
+            idx++;
+            PrintVocabulary();
+            return;
+        }
+        if (idx == 2)
+        {
+            Word newWord2 = new Word("Fridge", "Kuehlschrank", "_", "_", "_", "_", null, true);
+            vocabulary.Add(newWord2.english, newWord2);
+            idx++;
+            PrintVocabulary();
+            return;
+        }
+        if (idx == 3)
+        {
+            Word newWord3 = new Word("Dormitory", "Wohnheim", "_", "_", "_", "_", null, true);
+            vocabulary.Add(newWord3.english, newWord3);
+            idx++;
+            PrintVocabulary();
+            return;
+        }
+        if (idx == 4)
+        {
+            Word newWord4 = new Word("Wallet", "Geldbeutel", "_", "_", "_", "_", null, true);
+            vocabulary.Add(newWord4.english, newWord4);
+            idx++;
+            PrintVocabulary();
+            return;
+        }
+    }
+
+    public void PrintVocabulary()
+    {
+        string output = "=======================================\n";
+
+        foreach (var item in vocabulary)
+        {
+            output += item.Value.english + ", ";
+        }
+
+        Debug.Log(output);
+    }
+
     public void StoreNewWord(string Engword,string Translation)
     {
+        // new Word
+
+
         //Info info= new Info();
         //info.word = Translation;
         //info.Learnt = false;
