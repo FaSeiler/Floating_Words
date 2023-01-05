@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.Networking;
+using System.IO;
 
 /// <summary>
 /// This UI component displays detailed information about a vocab.
@@ -33,7 +35,41 @@ public class VocabInspectorUI : MonoBehaviour
             return;
         }
 
-        Application.OpenURL(activeWord.wordInfo.audioURL);
+        StartCoroutine(PlayMP3ClipFromURL(activeWord.wordInfo.audioURL));
+    }
+
+    public IEnumerator PlayMP3ClipFromURL(string audioURL)
+    {
+        AudioSource audioSource = GetComponent<AudioSource>();
+        string audioName = GetAudioClipNameFromURL(audioURL);
+
+        if (audioSource.clip != null && audioSource.clip.name == audioName)
+        {
+            audioSource.Play();
+            yield break;
+        }
+
+        UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(audioURL, AudioType.MPEG);
+        yield return www.SendWebRequest();
+
+        if (www.result != UnityWebRequest.Result.Success)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            AudioClip clip = DownloadHandlerAudioClip.GetContent(www);
+            clip.name = audioName;
+            audioSource.clip = clip;
+            audioSource.Play();
+        }
+    }
+
+    private string GetAudioClipNameFromURL(string audioURL)
+    {
+        int startIndex = audioURL.IndexOf("en/") + 3;
+        int substringLength = audioURL.Length - startIndex - 4;
+        return audioURL.Substring(startIndex, substringLength);
     }
 
     public void OpenVocabInspector(Word word)
