@@ -95,11 +95,11 @@ public class CaptureToCloudVision : MonoBehaviour
 
     void Update()
     {
-        if (Input.touchCount == 0)
-            return;
+        //if (Input.touchCount == 0)
+        //    return;
 
-        var touch = Input.GetTouch(0);
-        Debug.Log(touch.position.ToString());
+        //var touch = Input.GetTouch(0);
+        //Debug.Log(touch.position.ToString());
     }
 
     void OnRenderImage(RenderTexture source, RenderTexture destination)

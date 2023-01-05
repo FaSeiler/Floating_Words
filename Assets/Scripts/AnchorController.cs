@@ -43,6 +43,7 @@ public class AnchorController : MonoBehaviour
 
     public void RemoveAllAnchors()
     {
+        Debug.Log("Remove Anchors");
         anchorCreator.RemoveAllAnchors();
     }
 }

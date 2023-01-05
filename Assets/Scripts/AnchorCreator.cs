@@ -110,7 +110,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
                 {
                     anchor = gameObject.AddComponent<ARAnchor>();
                 }
-                //m_Anchors.Add(anchor);
+                m_Anchors.Add(anchor);
                 SetAnchorText(anchor, lable);
                 return;
                 

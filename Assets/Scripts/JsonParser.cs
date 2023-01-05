@@ -70,7 +70,7 @@ public class JsonParser : MonoBehaviour
 
                     //Debug.Log(x);
                     //Debug.Log(y);
-                    Vector2 coord = new Vector2(x, y);
+                    Vector2 coord = new Vector2(x, 1-y);
                     coords.Add(coord);
                 }
                 catch (FormatException)
