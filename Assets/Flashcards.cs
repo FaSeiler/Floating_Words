@@ -156,38 +156,38 @@ public class Flashcards : MonoBehaviour
         int idx;
 
         idx = GetUnusedAnswerIdx(answerIdxsUsed);
-        option1_text.text = vocabulary[idx].german;
+        option1_text.text = vocabulary[idx].GetWordForLanguage(VocabularyDB.activeLanguageMode);
         answerIdxsUsed.Add(idx);
 
         idx = GetUnusedAnswerIdx(answerIdxsUsed);
-        option2_text.text = vocabulary[idx].german;
+        option2_text.text = vocabulary[idx].GetWordForLanguage(VocabularyDB.activeLanguageMode);
         answerIdxsUsed.Add(idx);
 
         idx = GetUnusedAnswerIdx(answerIdxsUsed);
-        option3_text.text = vocabulary[idx].german;
+        option3_text.text = vocabulary[idx].GetWordForLanguage(VocabularyDB.activeLanguageMode);
         answerIdxsUsed.Add(idx);
 
         idx = GetUnusedAnswerIdx(answerIdxsUsed);
-        option4_text.text = vocabulary[idx].german;
+        option4_text.text = vocabulary[idx].GetWordForLanguage(VocabularyDB.activeLanguageMode);
         answerIdxsUsed.Add(idx);
 
 
         correctOption = Random.Range(0, 4);
         if (correctOption == 0)
         {
-            option1_text.text = activeQuizzedWord.german;
+            option1_text.text = activeQuizzedWord.GetWordForLanguage(VocabularyDB.activeLanguageMode);
         }
         else if (correctOption == 1)
         {
-            option2_text.text = activeQuizzedWord.german;
+            option2_text.text = activeQuizzedWord.GetWordForLanguage(VocabularyDB.activeLanguageMode);
         }
         else if (correctOption == 2)
         {
-            option3_text.text = activeQuizzedWord.german;
+            option3_text.text = activeQuizzedWord.GetWordForLanguage(VocabularyDB.activeLanguageMode);
         }
         else if (correctOption == 3)
         {
-            option4_text.text = activeQuizzedWord.german;
+            option4_text.text = activeQuizzedWord.GetWordForLanguage(VocabularyDB.activeLanguageMode);
         }
     }
 

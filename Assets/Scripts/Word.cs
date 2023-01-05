@@ -34,12 +34,25 @@ public class Word
     public Sprite screenshot;
     public bool learned; // Fabi: "Not sure what this is used for?!" -> comes from Wang
 
-    // TODO THIS COME FROM WANG.
-    //public override string ToString()
-    //{
-    //    if (screenshot == null)
-    //        return english + "_" + learned;
-    //    else
-    //        return english + "_" + learned + "_" + pic;
-    //}
+    // Returns the words translation for a given language
+    public string GetWordForLanguage(VocabularyDB.LanguageMode languageMode)
+    {
+        switch (languageMode)
+        {
+            case VocabularyDB.LanguageMode.english:
+                return english;
+            case VocabularyDB.LanguageMode.german:
+                return german;
+            case VocabularyDB.LanguageMode.chinese:
+                return chinese;
+            case VocabularyDB.LanguageMode.japanese:
+                return japanese;
+            case VocabularyDB.LanguageMode.spanish:
+                return spanish;
+            case VocabularyDB.LanguageMode.french:
+                return french;
+            default:
+                return english;
+        }
+    }
 }
