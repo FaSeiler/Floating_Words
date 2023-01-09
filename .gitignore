@@ -36,3 +36,9 @@ sysinfo.txt
 *.vsidx
 *.vsidx
 .vs/Floating_Words/FileContentIndex/0691ca1b-0867-46f0-8e66-785cac988f87.vsidx
+*.c
+*.cpp
+*.dll
+*.txt
+*.json
+*.pdb
