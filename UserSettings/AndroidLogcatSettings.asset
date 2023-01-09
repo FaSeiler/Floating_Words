@@ -1,48 +1,36 @@
 {
     "m_SelectedDeviceId": "MUN0219123003542",
     "m_SelectedPackage": {
-        "deviceId": "MUN0219123003542",
-        "name": "com.Company.FloatingWords",
-        "processId": 11990,
+        "deviceId": "",
+        "name": "",
+        "processId": 0,
         "exited": false
     },
     "m_SelectedPriority": 0,
     "m_KnownPackagesForSerialization": [
         {
             "deviceId": "MUN0219123003542",
-            "name": "com.huawei.android.launcher",
-            "processId": 14828,
-            "exited": false
-        },
-        {
-            "deviceId": "MUN0219123003542",
             "name": "com.Company.FloatingWords",
-            "processId": 23860,
+            "processId": 9365,
             "exited": true
         },
         {
             "deviceId": "MUN0219123003542",
             "name": "com.Company.FloatingWords",
-            "processId": 16052,
+            "processId": 12280,
             "exited": true
         },
         {
             "deviceId": "MUN0219123003542",
             "name": "com.Company.FloatingWords",
-            "processId": 22167,
+            "processId": 20020,
             "exited": true
         },
         {
             "deviceId": "MUN0219123003542",
             "name": "com.Company.FloatingWords",
-            "processId": 31530,
+            "processId": 26538,
             "exited": true
-        },
-        {
-            "deviceId": "MUN0219123003542",
-            "name": "com.Company.FloatingWords",
-            "processId": 11990,
-            "exited": false
         }
     ],
     "m_Tags": {

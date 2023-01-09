@@ -47,16 +47,16 @@ public class VocabularyDB : MonoBehaviour
         //if (!File.Exists(path + "\\Eng.txt")) {
         //    File.Create(path + "\\Eng.txt");
         //}
-        if (!File.Exists(path + "\\Deu.txt"))
+        if (!File.Exists(path + "//german.txt"))
         {
-            File.Create(path + "\\Deu.txt");
+            File.Create(path + "//german.txt");
         }
-        if (!File.Exists(path + "\\Cn.txt"))
+        if (!File.Exists(path + "//chinese.txt"))
         {
-            File.Create(path + "\\Cn.txt");
+            File.Create(path + "//chinese.txt");
         }
 
-        StreamReader sr = new StreamReader(path + "\\" + activeLanguageMode.ToString() + ".txt");
+        StreamReader sr = new StreamReader(path + "//" + activeLanguageMode.ToString() + ".txt");
         string line;
         //while ((line = sr.ReadLine()) != null)
         //{
@@ -154,8 +154,6 @@ public class VocabularyDB : MonoBehaviour
     public void StoreNewWord(string Engword,string Translation)
     {
         // new Word
-
-
         //Info info= new Info();
         //info.word = Translation;
         //info.Learnt = false;
@@ -171,7 +169,7 @@ public class VocabularyDB : MonoBehaviour
     public void SaveCapture(string word)
     {
         string picName = activeLanguageMode.ToString() + "_" + word;
-        File.WriteAllBytes(path+ "/" + picName, WebCamTextureToCloudVision.jpg);
+        File.WriteAllBytes(path+ "//" + picName, WebCamTextureToCloudVision.jpg);
     }
     
     public void LoadCapture(string word)
@@ -181,7 +179,7 @@ public class VocabularyDB : MonoBehaviour
 
     public void UpdateDoc()
     {
-        Doc = path + "\\" + activeLanguageMode.ToString() + ".txt";
+        Doc = path + "//" + activeLanguageMode.ToString() + ".txt";
     }
 
     public void OnApplicationQuit()
