@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation.Samples;
 
-
 public class AnchorController : MonoBehaviour
 {
     private AnchorCreator anchorCreator;
     private bool labelStyleBillboard = false;
+
 
     private void Start()
     {

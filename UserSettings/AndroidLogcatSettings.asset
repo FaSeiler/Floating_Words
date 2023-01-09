@@ -10,26 +10,26 @@
     "m_KnownPackagesForSerialization": [
         {
             "deviceId": "MUN0219123003542",
-            "name": "com.Company.FloatingWords",
-            "processId": 9365,
+            "name": "com.superrhino.rarering",
+            "processId": 9179,
+            "exited": true
+        },
+        {
+            "deviceId": "MUN0219123003542",
+            "name": "com.tencent.mm",
+            "processId": 31933,
             "exited": true
         },
         {
             "deviceId": "MUN0219123003542",
             "name": "com.Company.FloatingWords",
-            "processId": 12280,
+            "processId": 11838,
             "exited": true
         },
         {
             "deviceId": "MUN0219123003542",
             "name": "com.Company.FloatingWords",
-            "processId": 20020,
-            "exited": true
-        },
-        {
-            "deviceId": "MUN0219123003542",
-            "name": "com.Company.FloatingWords",
-            "processId": 26538,
+            "processId": 20254,
             "exited": true
         }
     ],

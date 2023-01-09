@@ -1613,6 +1613,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Prefab: {fileID: 1362899771367802, guid: de266e8e1914afc47873b082a14bec09, type: 3}
+  showInfo: {fileID: 1571097586}
+  vocabularyDB: {fileID: 830645681}
   rotateAnchorPrefabOnHit: 0
   m_Anchors: []
 --- !u!1 &1115067200
@@ -1827,6 +1829,7 @@ MonoBehaviour:
   canv: {fileID: 1410947645}
   Textprefab: {fileID: 5821033666174296555, guid: 6faec749410d0b3449dd5eed5146bcee,
     type: 3}
+  vocabularyDB: {fileID: 830645681}
 --- !u!1 &1579148782
 GameObject:
   m_ObjectHideFlags: 0

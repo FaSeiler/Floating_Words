@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARSubsystems;
-
 namespace UnityEngine.XR.ARFoundation.Samples
 {
     [RequireComponent(typeof(ARAnchorManager))]
@@ -11,6 +10,9 @@ namespace UnityEngine.XR.ARFoundation.Samples
     {
         [SerializeField]
         GameObject m_Prefab;
+        public static Word word;
+        public ShowInfo showInfo;
+        public VocabularyDB vocabularyDB;
 
         public GameObject prefab
         {
@@ -112,6 +114,12 @@ namespace UnityEngine.XR.ARFoundation.Samples
                 }
                 m_Anchors.Add(anchor);
                 SetAnchorText(anchor, lable);
+
+                if (!vocabularyDB.vocabulary.ContainsKey(lable))
+                {
+                    Word word = showInfo.SaveTranslationsToWord(lable);
+                    SetGetWordDetails.instance.SaveWordDetails(lable, word.german, word.chinese, word.japanese, word.spanish, word.french, false);
+                }
                 return;
                 
             }

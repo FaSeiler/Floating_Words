@@ -11,7 +11,8 @@ public class ShowInfo : MonoBehaviour
 {
     public Canvas canv;
     public GameObject Textprefab;
-    
+    public VocabularyDB vocabularyDB;
+
     public void ShowLabel(string label,Vector2 center)
     {
         TranslateText("en","de", label, (success, translatedText) =>
@@ -34,9 +35,59 @@ public class ShowInfo : MonoBehaviour
                 newText.GetComponent<TMP_Text>().text=translatedText;
             }
         });
-
-
     }
+    //private void Start()
+    //{
+    //    SaveTranslationsToWord("ComputerKeyboard");
+    //}
+
+    public Word SaveTranslationsToWord(string label)
+    {
+        Word newWord = new Word(label, "_", "_", "_", "_", "_", null, true);
+        TranslateText("en", "de", label, (success, translatedText) =>
+        {
+            if (success)
+            {
+                newWord.german = translatedText;
+            }
+        });
+        TranslateText("en", "zh-CN", label, (success, translatedText) =>
+        {
+            if (success)
+            {
+                newWord.chinese = translatedText;
+            }
+        });
+        TranslateText("en", "ja", label, (success, translatedText) =>
+        {
+            if (success)
+            {
+                newWord.japanese = translatedText;
+            }
+        });
+        TranslateText("en", "es", label, (success, translatedText) =>
+        {
+            if (success)
+            {
+                newWord.spanish = translatedText;
+            }
+        });
+        TranslateText("en", "fr", label, (success, translatedText) =>
+        {
+            if (success)
+            {
+                newWord.french = translatedText;
+            }
+        });
+        newWord.learned = false;
+        newWord.screenshot = null;
+        
+        vocabularyDB.vocabulary.Add(newWord.english, newWord);
+        return newWord;
+    }
+
+
+
 
     public void TranslateText(string sourceLanguage, string targetLanguage, string sourceText, Action<bool, string> callback)
     {

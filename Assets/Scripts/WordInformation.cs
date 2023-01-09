@@ -28,23 +28,31 @@ public class WordInformation
     {
         HttpWebRequest request = (HttpWebRequest)WebRequest.Create(API_URL + word);
         request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-
-        using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-        using (Stream stream = response.GetResponseStream())
-        using (StreamReader reader = new StreamReader(stream))
+        try
         {
-            string responseString = reader.ReadToEnd();
-            //Get the info from the response
-            JSONNode parsedText = JSONNode.Parse(responseString);
+            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+            using (Stream stream = response.GetResponseStream())
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                string responseString = reader.ReadToEnd();
+                //Get the info from the response
+                JSONNode parsedText = JSONNode.Parse(responseString);
 
-            WordInfo wordInfo = new WordInfo();
-            wordInfo.word_en = parsedText[0]["word"];
-            wordInfo.audioURL = parsedText[0]["phonetics"][0]["audio"];
-            wordInfo.partOfSpeech = parsedText[0]["meanings"][0]["partOfSpeech"];
-            wordInfo.definition = parsedText[0]["meanings"][0]["definitions"][0]["definition"];
-            wordInfo.example = parsedText[0]["meanings"][0]["definitions"][0]["example"];
+                WordInfo wordInfo = new WordInfo();
+                wordInfo.word_en = parsedText[0]["word"];
+                wordInfo.audioURL = parsedText[0]["phonetics"][0]["audio"];
+                wordInfo.partOfSpeech = parsedText[0]["meanings"][0]["partOfSpeech"];
+                wordInfo.definition = parsedText[0]["meanings"][0]["definitions"][0]["definition"];
+                wordInfo.example = parsedText[0]["meanings"][0]["definitions"][0]["example"];
 
-            return wordInfo;
+                return wordInfo;
+            }
+        }
+        catch (WebException)
+        {
+            Debug.Log("404 Not found");
+            WordInfo NullResult = new WordInfo();
+            return NullResult;
         }
     }
 
