@@ -6,27 +6,38 @@ using UnityEngine.UI;
 public class ScreenShot : MonoBehaviour
 {
     public static ScreenShot instance;
-    public Image dictionaryImage;
 
     private void Start()
     {
         instance = this;
     }
 
-    public void Capture(string word)
+    public Sprite Capture(string word)
     {
-        string tempName = word;
-        ScreenCapture.CaptureScreenshot(Application.dataPath + "/Resources/" + tempName + ".png");
+        ScreenCapture.CaptureScreenshot(Application.dataPath + "/Resources/" + word + ".png");
         Debug.Log("Captured");
+        return LoadScreenshot(word);
+    }
+
+    public Sprite Capture(Word word)
+    {
+        ScreenCapture.CaptureScreenshot(Application.dataPath + "/Resources/" + word.english + ".png");
+        Debug.Log("Captured");
+        return LoadScreenshot(word);
+    }
+
+    public Sprite LoadScreenshot(string word)
+    {
+        return Resources.Load<Sprite>(word);
+    }
+
+    public Sprite LoadScreenshot(Word word)
+    {
+        return Resources.Load<Sprite>(word.english);
     }
 
     public string PathOfImage(string word)
     {
-        return Application.dataPath+"/Resources/"+word+".png";   
-    }
-
-    public void AssignToDictionary(string word)
-    {
-        dictionaryImage.sprite = Resources.Load<Sprite>(word);
+        return Application.dataPath + "/Resources/" + word + ".png";
     }
 }

@@ -118,6 +118,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
                 if (!vocabularyDB.vocabulary.ContainsKey(lable))
                 {
                     Word word = showInfo.SaveTranslationsToWord(lable);
+                    word.screenshot = ScreenShot.instance.Capture(lable);
                     SetGetWordDetails.instance.SaveWordDetails(lable, word.german, word.chinese, word.japanese, word.spanish, word.french, false);
                 }
                 return;
