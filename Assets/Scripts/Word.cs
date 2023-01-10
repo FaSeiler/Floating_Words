@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Word
 {
@@ -39,8 +40,6 @@ public class Word
     {
         switch (languageMode)
         {
-            case VocabularyDB.LanguageMode.english:
-                return english;
             case VocabularyDB.LanguageMode.german:
                 return german;
             case VocabularyDB.LanguageMode.chinese:

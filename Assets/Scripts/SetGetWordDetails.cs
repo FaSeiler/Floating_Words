@@ -6,7 +6,6 @@ public class SetGetWordDetails : MonoBehaviour
 {
     public static SetGetWordDetails instance;
 
-    // Start is called before the first frame update
     void Start()
     {
         instance = this;
