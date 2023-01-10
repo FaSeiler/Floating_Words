@@ -6,6 +6,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
 {
     [RequireComponent(typeof(ARAnchorManager))]
     [RequireComponent(typeof(ARRaycastManager))]
+    [RequireComponent(typeof(AROcclusionManager))]
     public class AnchorCreator : MonoBehaviour
     {
         [SerializeField]
@@ -37,6 +38,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
             
             m_RaycastManager = GetComponent<ARRaycastManager>();
             m_AnchorManager = GetComponent<ARAnchorManager>();
+            m_OcclusionManager = GetComponent<AROcclusionManager>();
             
         }
 
@@ -98,32 +100,93 @@ namespace UnityEngine.XR.ARFoundation.Samples
         }
 
 
-        public void CreateAnchorWithDepth(Vector2 center, string lable)
+        public void CreateAnchorWithDepth(Vector2 screenPos, int screenWidth, int screenHeight, string lable)
         {
             ARAnchor anchor = null;
+            Vector2 center = new Vector2(screenPos.x * screenWidth, screenPos.y * screenHeight);
             
-            if (m_RaycastManager.Raycast(center, s_Hits, TrackableType.AllTypes))
+            if (m_OcclusionManager.TryAcquireEnvironmentDepthCpuImage(out var cpuImage) && cpuImage.valid)
             {
-                Debug.Log(center.ToString() + "  " + lable);
-                var hit = s_Hits[0];
-                GameObject gameObject = Instantiate(prefab, hit.pose.position, hit.pose.rotation);
-                anchor = gameObject.GetComponent<ARAnchor>();
-                if (anchor == null)
+                using(cpuImage)
                 {
-                    anchor = gameObject.AddComponent<ARAnchor>();
-                }
-                m_Anchors.Add(anchor);
-                SetAnchorText(anchor, lable);
+                    //Assert.IsTrue(cpuImage.planeCount == 1);
+                    var plane = cpuImage.GetPlane(0);
+                    var dataLength = plane.data.Length;
+                    var pixelStride = plane.pixelStride;
+                    var rowStride = plane.rowStride;
+                    //Assert.AreEqual(0, dataLength % rowStride, "dataLength should be divisible by rowStride without a remainder");
+                    //Assert.AreEqual(0,  rowStride% pixelStride, "rowStride should be divisible by pixelStride without a remainder");
+                    
+                    var depthTextureX = (int) (cpuImage.width * screenPos.x);
+                    var depthTextureY = (int) (cpuImage.height * (screenPos.y));
+                    var pixelData = plane.data.GetSubArray(depthTextureY * rowStride + depthTextureX * pixelStride, pixelStride);
 
-                if (!vocabularyDB.vocabulary.ContainsKey(lable))
-                {
-                    Word word = showInfo.SaveTranslationsToWord(lable);
-                    SetGetWordDetails.instance.SaveWordDetails(lable, word.german, word.chinese, word.japanese, word.spanish, word.french, false);
-                }
-                return;
+                    float depthInMeters = convertPixelDataToDistanceInMeters(pixelData.ToArray(), cpuImage.format);
+                    
+                    if (m_RaycastManager.Raycast(center, s_Hits, TrackableType.AllTypes))
+                    {
+                        Debug.Log(center.ToString() + "  " + lable);
+                        var hit = s_Hits[0];
+                        //hit.pose.position.z = depthInMeters;
+                        //
+                        Vector3 hitPos = new Vector3(hit.pose.position.x, hit.pose.position.y, depthInMeters);
+                        GameObject gameObject = Instantiate(prefab, hit.pose.position, hit.pose.rotation);
+                        anchor = gameObject.GetComponent<ARAnchor>();
+                        if (anchor == null)
+                        {
+                            anchor = gameObject.AddComponent<ARAnchor>();
+                        }
+                        m_Anchors.Add(anchor);
+                        SetAnchorText(anchor, lable);
+
+                        if (!vocabularyDB.vocabulary.ContainsKey(lable))
+                        {
+                            Word word = showInfo.SaveTranslationsToWord(lable);
+                            SetGetWordDetails.instance.SaveWordDetails(lable, word.german, word.chinese, word.japanese, word.spanish, word.french, false);
+                        }
+                        return;
                 
+                    }
+                }
+            }
+
+            //if (m_RaycastManager.Raycast(center, s_Hits, TrackableType.AllTypes))
+            //{
+                //Debug.Log(center.ToString() + "  " + lable);
+                //var hit = s_Hits[0];
+                //hit.pose.position.z = depthInMeters;
+                //GameObject gameObject = Instantiate(prefab, hit.pose.position, hit.pose.rotation);
+                //anchor = gameObject.GetComponent<ARAnchor>();
+                //if (anchor == null)
+                //{
+                    //anchor = gameObject.AddComponent<ARAnchor>();
+                //}
+                //m_Anchors.Add(anchor);
+                //SetAnchorText(anchor, lable);
+
+                //if (!vocabularyDB.vocabulary.ContainsKey(lable))
+                //{
+                    //Word word = showInfo.SaveTranslationsToWord(lable);
+                    //SetGetWordDetails.instance.SaveWordDetails(lable, word.german, word.chinese, word.japanese, word.spanish, word.french, false);
+                //}
+                //return;
+                
+            //}
+        }
+
+        float convertPixelDataToDistanceInMeters(byte[] data, XRCpuImage.Format format) 
+        {
+            switch (format) 
+            {
+                case XRCpuImage.Format.DepthUint16:
+                    return BitConverter.ToUInt16(data, 0) / 1000f;
+                case XRCpuImage.Format.DepthFloat32:
+                    return BitConverter.ToSingle(data, 0);
+                default:
+                    throw new Exception($"Format not supported: {format}");
             }
         }
+        
 
         void Update()
         {
@@ -168,5 +231,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
         ARRaycastManager m_RaycastManager;
 
         ARAnchorManager m_AnchorManager;
+        
+        AROcclusionManager m_OcclusionManager;
     }
 }
