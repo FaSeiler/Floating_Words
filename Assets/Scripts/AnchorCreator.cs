@@ -7,7 +7,6 @@ namespace UnityEngine.XR.ARFoundation.Samples
     [RequireComponent(typeof(ARAnchorManager))]
     [RequireComponent(typeof(ARRaycastManager))]
     [RequireComponent(typeof(AROcclusionManager))]
-    [RequireComponent(typeof(AROcclusionManager))]
     public class AnchorCreator : MonoBehaviour
     {
         [SerializeField]
@@ -38,7 +37,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
         {
             
             m_RaycastManager = GetComponent<ARRaycastManager>();
-            m_OcclusionManager = GetComponent<AROcclusionManager>();
+            m_AnchorManager = GetComponent<ARAnchorManager>();
             m_OcclusionManager = GetComponent<AROcclusionManager>();
             
         }
@@ -100,9 +99,10 @@ namespace UnityEngine.XR.ARFoundation.Samples
             return anchor;
         }
 
-        public void CreateAnchorWithDepth(Vector2 screenPos, int screenWidth, int screenHeight, string lable)
+
         public void CreateAnchorWithDepth(Vector2 screenPos, int screenWidth, int screenHeight, string lable)
         {
+            ARAnchor anchor = null;
             Vector2 center = new Vector2(screenPos.x * screenWidth, screenPos.y * screenHeight);
             
             if (m_OcclusionManager.TryAcquireEnvironmentDepthCpuImage(out var cpuImage) && cpuImage.valid)
@@ -138,19 +138,55 @@ namespace UnityEngine.XR.ARFoundation.Samples
                         }
                         m_Anchors.Add(anchor);
                         SetAnchorText(anchor, lable);
-                        SetAnchorText(anchor, lable);
+
                         if (!vocabularyDB.vocabulary.ContainsKey(lable))
                         {
                             Word word = showInfo.SaveTranslationsToWord(lable);
-                            word.screenshot = ScreenShot.instance.Capture(lable);
-                    SetGetWordDetails.instance.SaveWordDetails(lable, word.german, word.chinese, word.japanese, word.spanish, word.french, false);
-                        }
-                        return;
+                            SetGetWordDetails.instance.SaveWordDetails(lable, word.german, word.chinese, word.japanese, word.spanish, word.french, false);
                         }
                         return;
                 
+                    }
+                }
+            }
+
+            //if (m_RaycastManager.Raycast(center, s_Hits, TrackableType.AllTypes))
+            //{
+                //Debug.Log(center.ToString() + "  " + lable);
+                //var hit = s_Hits[0];
+                //hit.pose.position.z = depthInMeters;
+                //GameObject gameObject = Instantiate(prefab, hit.pose.position, hit.pose.rotation);
+                //anchor = gameObject.GetComponent<ARAnchor>();
+                //if (anchor == null)
+                //{
+                    //anchor = gameObject.AddComponent<ARAnchor>();
+                //}
+                //m_Anchors.Add(anchor);
+                //SetAnchorText(anchor, lable);
+
+                //if (!vocabularyDB.vocabulary.ContainsKey(lable))
+                //{
+                    //Word word = showInfo.SaveTranslationsToWord(lable);
+                    //SetGetWordDetails.instance.SaveWordDetails(lable, word.german, word.chinese, word.japanese, word.spanish, word.french, false);
+                //}
+                //return;
+                
+            //}
+        }
+
+        float convertPixelDataToDistanceInMeters(byte[] data, XRCpuImage.Format format) 
+        {
+            switch (format) 
+            {
+                case XRCpuImage.Format.DepthUint16:
+                    return BitConverter.ToUInt16(data, 0) / 1000f;
+                case XRCpuImage.Format.DepthFloat32:
+                    return BitConverter.ToSingle(data, 0);
+                default:
+                    throw new Exception($"Format not supported: {format}");
             }
         }
+        
 
         void Update()
         {
@@ -193,8 +229,8 @@ namespace UnityEngine.XR.ARFoundation.Samples
         public List<ARAnchor> m_Anchors = new List<ARAnchor>();
 
         ARRaycastManager m_RaycastManager;
-        
-        AROcclusionManager m_OcclusionManager;
+
+        ARAnchorManager m_AnchorManager;
         
         AROcclusionManager m_OcclusionManager;
     }
