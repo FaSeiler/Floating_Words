@@ -15,7 +15,6 @@ public class DropdownHandler : MonoBehaviour
         dropdown.options.Clear();
 
         List<string> items = new List<string>();
-        items.Add("English");
         items.Add("German");
         items.Add("Chinese");
         items.Add("Japanese");
@@ -24,7 +23,6 @@ public class DropdownHandler : MonoBehaviour
 
         foreach (var item in items)
         {
-            //dropdown.options.Add(new Dropdown.OptionData() { text = item });
             dropdown.options.Add(new TMP_Dropdown.OptionData() { text = item });
         }
 
@@ -40,26 +38,22 @@ public class DropdownHandler : MonoBehaviour
         switch (index)
         {
             case 0:
-                selected_language = "en";
-                VocabularyDB.activeLanguageMode = VocabularyDB.LanguageMode.english;
-                break;
-            case 1:
                 selected_language = "de";
                 VocabularyDB.activeLanguageMode = VocabularyDB.LanguageMode.german;
                 break;
-            case 2:
+            case 1:
                 selected_language = "cn";
                 VocabularyDB.activeLanguageMode = VocabularyDB.LanguageMode.chinese;
                 break;
-            case 3:
+            case 2:
                 selected_language = "jp";
                 VocabularyDB.activeLanguageMode = VocabularyDB.LanguageMode.japanese;
                 break;
-            case 4:
+            case 3:
                 selected_language = "es";
                 VocabularyDB.activeLanguageMode = VocabularyDB.LanguageMode.spanish;
                 break;
-            case 5:
+            case 4:
                 selected_language = "fr";
                 VocabularyDB.activeLanguageMode = VocabularyDB.LanguageMode.french;
                 break;
@@ -67,6 +61,4 @@ public class DropdownHandler : MonoBehaviour
 
         Debug.Log(selected_language);
     }
-
-    //Ouput the new value of the Dropdown into Text
 }

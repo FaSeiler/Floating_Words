@@ -100,9 +100,6 @@ public class VocabInspectorUI : MonoBehaviour
 
         switch (VocabularyDB.activeLanguageMode)
         {
-            case VocabularyDB.LanguageMode.english:
-                word_translation_text.text = newWord.english;
-                break;
             case VocabularyDB.LanguageMode.german:
                 word_translation_text.text = newWord.german;
                 break;
@@ -124,6 +121,6 @@ public class VocabInspectorUI : MonoBehaviour
 
         word_definition_text.text = newWord.wordInfo.definition;
         word_partOfSpeech_text.text = newWord.wordInfo.partOfSpeech;
-        ScreenShot.instance.AssignToDictionary(newWord.english);
+        word_screenshot.sprite = newWord.screenshot;
     }
 }
