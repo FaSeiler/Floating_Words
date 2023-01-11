@@ -137,7 +137,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
                         Debug.Log(center.ToString() + "  " + lable);
                         var hit = s_Hits[0];
                         //hit.pose.position.z = depthInMeters;
-                        //
+                        // here we just simply replace the depth value obtained from depth map.
                         Vector3 hitPos = new Vector3(hit.pose.position.x, hit.pose.position.y, depthInMeters);
                         GameObject gameObject = Instantiate(prefab, hit.pose.position, hit.pose.rotation);
                         anchor = gameObject.GetComponent<ARAnchor>();
@@ -183,6 +183,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
             //}
         }
 
+        // NOTE: can be further improved, check depthlab's implementation.
         float convertPixelDataToDistanceInMeters(byte[] data, XRCpuImage.Format format) 
         {
             switch (format) 

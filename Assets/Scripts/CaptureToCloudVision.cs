@@ -51,6 +51,7 @@ public class CaptureToCloudVision : MonoBehaviour
         public int maxResults;
     }
 
+
     public enum FeatureType
     {
         OBJECT_LOCALIZATION
