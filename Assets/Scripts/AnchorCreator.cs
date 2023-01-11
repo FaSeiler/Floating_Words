@@ -22,6 +22,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
         }
 
         public bool rotateAnchorPrefabOnHit = false;
+        private List<string> detectedLabels = new List<string>();
 
         public void RemoveAllAnchors()
         {
@@ -31,6 +32,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
                 Destroy(anchor.gameObject);
             }
             m_Anchors.Clear();
+            detectedLabels = new List<string>();
         }
 
         void Awake()
@@ -104,6 +106,13 @@ namespace UnityEngine.XR.ARFoundation.Samples
         {
             ARAnchor anchor = null;
             Vector2 center = new Vector2(screenPos.x * screenWidth, screenPos.y * screenHeight);
+            if (detectedLabels.Contains(lable))
+            {
+                Debug.Log("label already detected");
+                return;
+            }
+            
+            detectedLabels.Add(lable);
             
             if (m_OcclusionManager.TryAcquireEnvironmentDepthCpuImage(out var cpuImage) && cpuImage.valid)
             {
