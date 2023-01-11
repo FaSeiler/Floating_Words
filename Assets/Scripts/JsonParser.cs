@@ -87,9 +87,9 @@ public class JsonParser : MonoBehaviour
                 newDectedObjList.Add(newDectedObj);
 
                 Vector2 center = (newDectedObj.UL + newDectedObj.BR + newDectedObj.UR + newDectedObj.BL) / 4;
-                center.x *= Screen.width;
-                center.y *= Screen.height;
-                anchorCreater.CreateAnchorWithDepth(center, newDectedObj.Label);
+                //center.x *= Screen.width;
+                //center.y *= Screen.height;
+                anchorCreater.CreateAnchorWithDepth(center, Screen.width, Screen.height, newDectedObj.Label);
                 //SI.ShowLabel(label, coords);
                 printInfo(newDectedObj);
             }        

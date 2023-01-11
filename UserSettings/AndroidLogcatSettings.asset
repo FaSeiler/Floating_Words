@@ -1,9 +1,9 @@
 {
-    "m_SelectedDeviceId": "MUN0219123003542",
+    "m_SelectedDeviceId": "RF8M70NHR5Y",
     "m_SelectedPackage": {
-        "deviceId": "",
-        "name": "",
-        "processId": 0,
+        "deviceId": "RF8M70NHR5Y",
+        "name": "com.Company.FloatingWords",
+        "processId": 28475,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -31,6 +31,60 @@
             "name": "com.Company.FloatingWords",
             "processId": 20254,
             "exited": true
+        },
+        {
+            "deviceId": "RF8M70NHR5Y",
+            "name": "com.Company.FloatingWords",
+            "processId": 27870,
+            "exited": true
+        },
+        {
+            "deviceId": "RF8M70NHR5Y",
+            "name": "com.Company.FloatingWords",
+            "processId": 3111,
+            "exited": true
+        },
+        {
+            "deviceId": "RF8M70NHR5Y",
+            "name": "com.Company.FloatingWords",
+            "processId": 22988,
+            "exited": true
+        },
+        {
+            "deviceId": "RF8M70NHR5Y",
+            "name": "com.Company.FloatingWords",
+            "processId": 28938,
+            "exited": true
+        },
+        {
+            "deviceId": "RF8M70NHR5Y",
+            "name": "com.Company.FloatingWords",
+            "processId": 30145,
+            "exited": false
+        },
+        {
+            "deviceId": "RF8M70NHR5Y",
+            "name": "com.Company.FloatingWords",
+            "processId": 3329,
+            "exited": false
+        },
+        {
+            "deviceId": "RF8M70NHR5Y",
+            "name": "com.Company.FloatingWords",
+            "processId": 9586,
+            "exited": false
+        },
+        {
+            "deviceId": "RF8M70NHR5Y",
+            "name": "com.Company.FloatingWords",
+            "processId": 10823,
+            "exited": false
+        },
+        {
+            "deviceId": "RF8M70NHR5Y",
+            "name": "com.Company.FloatingWords",
+            "processId": 28475,
+            "exited": false
         }
     ],
     "m_Tags": {
