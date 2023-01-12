@@ -9,11 +9,7 @@ public class SetGetWordDetails : MonoBehaviour
     void Start()
     {
         instance = this;
-        
-        //SaveWordDetails("aaaab", "bru", "caa", "d", "e", "f", false);
-        //ReturnWordDetails("aaaab");
     }
-
 
     public void SaveWordDetails(string english, string german, string chinese, string japanese, string spanish, string french, bool learned)
     {

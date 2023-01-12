@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Word
 {
@@ -33,7 +32,7 @@ public class Word
 
     public FreeDictionaryAPI.WordInfo wordInfo;
     public Sprite screenshot;
-    public bool learned; // Fabi: "Not sure what this is used for?!" -> comes from Wang
+    public bool learned; // Unused variable
 
     // Returns the words translation for a given language
     public string GetWordForLanguage(VocabularyDB.LanguageMode languageMode)

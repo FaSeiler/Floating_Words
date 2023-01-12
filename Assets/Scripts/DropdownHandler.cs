@@ -9,7 +9,6 @@ public class DropdownHandler : MonoBehaviour
     public string selected_language;
     public TMP_Dropdown dropdown;
 
-
     void Start()
     {
         dropdown.options.Clear();

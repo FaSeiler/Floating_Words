@@ -129,7 +129,6 @@ public class CaptureToCloudVision : MonoBehaviour
             request.features = new List<Feature>();
             Feature feature = new Feature();
             feature.type = this.featureType.ToString();
-            Debug.Log(this.featureType.ToString());
             feature.maxResults = this.maxResults;
             request.features.Add(feature);
             requests.requests.Add(request);
@@ -156,6 +155,5 @@ public class CaptureToCloudVision : MonoBehaviour
                 }
             }
         }
-
     }
 }

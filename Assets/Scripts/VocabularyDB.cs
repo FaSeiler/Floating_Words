@@ -1,11 +1,10 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.IO;
-using System.Linq;
 
 public class VocabularyDB : MonoBehaviour
 {
+    public static VocabularyDB instance;
+
     public enum LanguageMode // maybe add more
     {
         german,
@@ -18,16 +17,13 @@ public class VocabularyDB : MonoBehaviour
     public static LanguageMode activeLanguageMode = LanguageMode.german;
     public Dictionary<string, Word> vocabulary = new Dictionary<string, Word>();
 
-    private SetGetWordDetails setGetWordDetails;
-
     void Start()
     {
-        setGetWordDetails = FindObjectOfType<SetGetWordDetails>();
-        // Load all words into vocabulary
+        // TODO: Load all words from last session into vocabulary
 
-        /// Fabi: EXAMPLE of how a word is created. Note that all translations should be already initialized
-        /// when the word is created.
-        /// TODO: Delete the following lines later
+        instance = this;
+
+        // TODO: Delete the following lines later (example words)
         Word newWord = new Word("Example", "Beispiel", "_", "_", "_", "_", null, true);
         Word newWord1 = new Word("Loudspeaker", "Lautsprecher", "_", "_", "_", "_", null, true);
         Word newWord2 = new Word("Fridge", "Kuehlschrank", "_", "_", "_", "_", null, true);
@@ -38,62 +34,65 @@ public class VocabularyDB : MonoBehaviour
         vocabulary.Add(newWord2.english, newWord2);
         vocabulary.Add(newWord3.english, newWord3);
         vocabulary.Add(newWord4.english, newWord4);
-        idx = -1;
     }
 
-    private int idx = 0;
-    public void DebugAddWord()
+    public void AddNewWordToVocabularyDB(string newWord) 
     {
-        if (idx == -1)
-        {
-            return;
-        }
+        Word word = CreateNewWordWithTranslations(newWord); // Create the word with translations
+        word.screenshot = ScreenShot.instance.Capture(newWord); // Save screenshot for word
+        SetGetWordDetails.instance.SaveWordDetails(newWord, word.german, word.chinese, word.japanese, word.spanish, word.french, false); // Save word details
+        vocabulary.Add(word.english, word); // Add new word to DB dictionary
+    }
 
-        if (idx==0)
+    private Word CreateNewWordWithTranslations(string label)
+    {
+        Word newWord = new Word(label, "_", "_", "_", "_", "_", null, true);
+
+        TranslationAPI.instance.TranslateText("en", "de", label, (success, translatedText) =>
         {
-            Word newWord = new Word("Example", "Beispiel", "_", "_", "_", "_", null, true);
-            vocabulary.Add(newWord.english, newWord);
-            idx++;
-            PrintVocabulary();
-            return;
-        }
-        if (idx==1)
+            if (success)
+            {
+                newWord.german = translatedText;
+            }
+        });
+        TranslationAPI.instance.TranslateText("en", "zh-CN", label, (success, translatedText) =>
         {
-            Word newWord1 = new Word("Loudspeaker", "Lautsprecher", "_", "_", "_", "_", null, true);
-            vocabulary.Add(newWord1.english, newWord1);
-            idx++;
-            PrintVocabulary();
-            return;
-        }
-        if (idx == 2)
+            if (success)
+            {
+                newWord.chinese = translatedText;
+            }
+        });
+        TranslationAPI.instance.TranslateText("en", "ja", label, (success, translatedText) =>
         {
-            Word newWord2 = new Word("Fridge", "Kuehlschrank", "_", "_", "_", "_", null, true);
-            vocabulary.Add(newWord2.english, newWord2);
-            idx++;
-            PrintVocabulary();
-            return;
-        }
-        if (idx == 3)
+            if (success)
+            {
+                newWord.japanese = translatedText;
+            }
+        });
+        TranslationAPI.instance.TranslateText("en", "es", label, (success, translatedText) =>
         {
-            Word newWord3 = new Word("Dormitory", "Wohnheim", "_", "_", "_", "_", null, true);
-            vocabulary.Add(newWord3.english, newWord3);
-            idx++;
-            PrintVocabulary();
-            return;
-        }
-        if (idx == 4)
+            if (success)
+            {
+                newWord.spanish = translatedText;
+            }
+        });
+        TranslationAPI.instance.TranslateText("en", "fr", label, (success, translatedText) =>
         {
-            Word newWord4 = new Word("Wallet", "Geldbeutel", "_", "_", "_", "_", null, true);
-            vocabulary.Add(newWord4.english, newWord4);
-            idx++;
-            PrintVocabulary();
-            return;
-        }
+            if (success)
+            {
+                newWord.french = translatedText;
+            }
+        });
+
+        newWord.learned = false;
+        newWord.screenshot = null;
+
+        return newWord;
     }
 
     public void PrintVocabulary()
     {
-        string output = "=======================================\n";
+        string output = "";
 
         foreach (var item in vocabulary)
         {

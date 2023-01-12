@@ -11,8 +11,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
         [SerializeField]
         GameObject m_Prefab;
         public static Word word;
-        public ShowInfo showInfo;
-        public VocabularyDB vocabularyDB;
+        public TranslationAPI showInfo;
 
         public GameObject prefab
         {
@@ -115,52 +114,14 @@ namespace UnityEngine.XR.ARFoundation.Samples
                 m_Anchors.Add(anchor);
                 SetAnchorText(anchor, lable);
 
-                if (!vocabularyDB.vocabulary.ContainsKey(lable))
+                if (!VocabularyDB.instance.vocabulary.ContainsKey(lable))
                 {
-                    Word word = showInfo.SaveTranslationsToWord(lable);
-                    word.screenshot = ScreenShot.instance.Capture(lable);
-                    SetGetWordDetails.instance.SaveWordDetails(lable, word.german, word.chinese, word.japanese, word.spanish, word.french, false);
+                    VocabularyDB.instance.AddNewWordToVocabularyDB(lable);
                 }
                 return;
                 
             }
         }
-
-        void Update()
-        {
-            //if (Input.touchCount == 0)
-            //    return;
-
-            //var touch = Input.GetTouch(0);
-            //Logger.Log(touch.position.ToString());
-            //if (touch.phase != TouchPhase.Began)
-            //    return;
-
-            //// Raycast against planes and feature points
-            //const TrackableType trackableTypes =
-            //    TrackableType.PlaneWithinPolygon |
-            //    TrackableType.FeaturePoint;
-
-            //// Perform the raycast
-            //if (m_RaycastManager.Raycast(touch.position, s_Hits, trackableTypes))
-            //{
-            //    // Raycast hits are sorted by distance, so the first one will be the closest hit.
-            //    var hit = s_Hits[0];
-
-            //    // Create a new anchor
-            //    var anchor = CreateAnchor(hit);
-            //    if (anchor)
-            //    {
-            //        // Remember the anchor so we can remove it later.
-            //        m_Anchors.Add(anchor);
-            //    }
-            //    else
-            //    {
-            //        Logger.Log("Error creating anchor");
-            //    }
-            //}
-        }
-
 
         public static List<ARRaycastHit> s_Hits = new List<ARRaycastHit>();
 

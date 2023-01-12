@@ -4,17 +4,10 @@ using UnityEngine;
 
 public class DictionaryUI : MonoBehaviour
 {
-    private VocabularyDB vocabularyDB;
     public GameObject uiGO;
     public GameObject vocabEntryParent;
     public GameObject vocabEntryPrefab;
 
-    private void Start()
-    {
-        vocabularyDB = FindObjectOfType<VocabularyDB>();
-    }
-
-    // The dictionary UI is always updated when it is opened.
     public void OpenDictionaryUI()
     {
         uiGO.SetActive(true);
@@ -29,14 +22,13 @@ public class DictionaryUI : MonoBehaviour
     // This adds/instantiates all the vocabulary buttons in the dictionary UI
     private void BuildDictionaryUI()
     {
-        if (vocabularyDB == null)
+        if (VocabularyDB.instance == null)
         {
-            //Debug.Log("Error: VocabularyDB not yet initialized!");
             return;
         }
 
         DestroyAllChildrenGO(vocabEntryParent);
-        Dictionary<string, Word> vocabulary = vocabularyDB.vocabulary;
+        Dictionary<string, Word> vocabulary = VocabularyDB.instance.vocabulary;
         
         foreach (KeyValuePair<string, Word> vocab in vocabulary)
         {
