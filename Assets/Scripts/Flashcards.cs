@@ -22,7 +22,6 @@ public class Flashcards : MonoBehaviour
 
     public TextMeshProUGUI activeQuizzedWord_text;
 
-    private VocabularyDB vocabularyDB;
     private List<Word> vocabulary;
 
     private Word activeQuizzedWord = null;
@@ -38,8 +37,6 @@ public class Flashcards : MonoBehaviour
     // REQUIRES: at least 4 words in vocabulary
     private void Start()
     {
-        vocabularyDB = FindObjectOfType<VocabularyDB>();
-
         continue_btn.onClick.AddListener(Continue);
         option0_btn.onClick.AddListener(delegate { OnClickButton(option0_btn, 0); });
         option1_btn.onClick.AddListener(delegate { OnClickButton(option1_btn, 1); });
@@ -63,7 +60,7 @@ public class Flashcards : MonoBehaviour
 
     public void OpenFlashCardsUI()
     {
-        vocabulary = VocabDictionaryToList(vocabularyDB.vocabulary);
+        vocabulary = VocabDictionaryToList(VocabularyDB.instance.vocabulary);
 
         if (vocabulary.Count < 4)
         {
@@ -80,18 +77,6 @@ public class Flashcards : MonoBehaviour
     public void CloseFlashCardsUI()
     {
         flashCardsUIGO.SetActive(false);
-    }
-
-    private void PrintVocab()
-    {
-        string output = "";
-
-        for (int i = 0; i < vocabulary.Count; i++)
-        {
-            output += vocabulary[i].english + ", ";
-        }
-
-        Debug.Log(output);
     }
 
     private List<Word> VocabDictionaryToList(Dictionary<string, Word> vocabDict)

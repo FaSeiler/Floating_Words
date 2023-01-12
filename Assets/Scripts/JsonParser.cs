@@ -8,7 +8,6 @@ using UnityEngine.XR.ARFoundation.Samples;
 public class JsonParser : MonoBehaviour
 {
     public DrawingBoundingBox DBB;
-    public ShowInfo SI;
     public AnchorCreator anchorCreater;
     public TextMeshProUGUI debugText;
 
@@ -33,11 +32,10 @@ public class JsonParser : MonoBehaviour
 
     public void ExtractInfo(string text)
     {
-        SI.CleanAll();
-        Debug.Log(text);
         debugText.text = text;
         int startIndex = 0;
         List <DetectedObj> newDectedObjList = new List <DetectedObj>();
+
         while (text.IndexOf("name", startIndex) != -1)
         {
             //extract label
@@ -63,22 +61,14 @@ public class JsonParser : MonoBehaviour
                         Debug.Log("incomplete response");
                         break;
                     }
-                    //float x = (float)double.Parse(text.Substring(startIndex, text.IndexOf(',', startIndex) - startIndex), System.Globalization.NumberFormatInfo.InvariantInfo);
                     startIndex = text.IndexOf('y', startIndex) + 3;
-                    //float y = (float)double.Parse(text.Substring(startIndex, text.IndexOf('}', startIndex) - startIndex),System.Globalization.NumberFormatInfo.InvariantInfo);
                     float y = (float)Convert.ToDouble(text.Substring(startIndex, text.IndexOf('}', startIndex) - startIndex));
-
-                    //Debug.Log(x);
-                    //Debug.Log(y);
                     Vector2 coord = new Vector2(x, 1-y);
                     coords.Add(coord);
                 }
                 catch (FormatException)
                 {
                     Debug.Log("Incorrect format of input, getting new data next iteration");
-
-                    //Vector2 coord = new Vector2(0.5f, 0.5f);
-                    //coords.Add(coord);
                 }
             }
             if(coords.Count == 4)
@@ -87,16 +77,12 @@ public class JsonParser : MonoBehaviour
                 newDectedObjList.Add(newDectedObj);
 
                 Vector2 center = (newDectedObj.UL + newDectedObj.BR + newDectedObj.UR + newDectedObj.BL) / 4;
-                //center.x *= Screen.width;
-                //center.y *= Screen.height;
-                anchorCreater.CreateAnchorWithDepth(center, Screen.width, Screen.height, newDectedObj.Label);
-                //SI.ShowLabel(label, coords);
+                center.x *= Screen.width;
+                center.y *= Screen.height;
+                anchorCreater.CreateAnchorWithDepth(center, newDectedObj.Label);
                 printInfo(newDectedObj);
             }        
         }
-        //DBB.setobj(newDectedObjList);
-        
-        
     }
 
     public void printInfo(DetectedObj obj)
@@ -108,7 +94,6 @@ public class JsonParser : MonoBehaviour
             + "UpLeft Coordinates : x= " + obj.UL.x + "  y= " + obj.UL.y + "\n";
         Debug.Log(info);
     }
-
 }
 
 

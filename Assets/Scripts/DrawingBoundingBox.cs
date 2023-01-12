@@ -9,7 +9,7 @@ public class DrawingBoundingBox : MonoBehaviour
     private float planex;
     private float planey;
     public GameObject plane;
-    public ShowInfo SI;
+    public TranslationAPI SI;
     void CreateLineMaterial()
     {
         if (!lineMaterial)

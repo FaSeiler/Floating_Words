@@ -6,14 +6,12 @@ namespace UnityEngine.XR.ARFoundation.Samples
 {
     [RequireComponent(typeof(ARAnchorManager))]
     [RequireComponent(typeof(ARRaycastManager))]
-    [RequireComponent(typeof(AROcclusionManager))]
     public class AnchorCreator : MonoBehaviour
     {
         [SerializeField]
         GameObject m_Prefab;
         public static Word word;
-        public ShowInfo showInfo;
-        public VocabularyDB vocabularyDB;
+        public TranslationAPI showInfo;
 
         public GameObject prefab
         {
@@ -22,7 +20,6 @@ namespace UnityEngine.XR.ARFoundation.Samples
         }
 
         public bool rotateAnchorPrefabOnHit = false;
-        private List<string> detectedLabels = new List<string>();
 
         public void RemoveAllAnchors()
         {
@@ -32,7 +29,6 @@ namespace UnityEngine.XR.ARFoundation.Samples
                 Destroy(anchor.gameObject);
             }
             m_Anchors.Clear();
-            detectedLabels = new List<string>();
         }
 
         void Awake()
@@ -40,7 +36,6 @@ namespace UnityEngine.XR.ARFoundation.Samples
             
             m_RaycastManager = GetComponent<ARRaycastManager>();
             m_AnchorManager = GetComponent<ARAnchorManager>();
-            m_OcclusionManager = GetComponent<AROcclusionManager>();
             
         }
 
@@ -102,137 +97,31 @@ namespace UnityEngine.XR.ARFoundation.Samples
         }
 
 
-        public void CreateAnchorWithDepth(Vector2 screenPos, int screenWidth, int screenHeight, string lable)
+        public void CreateAnchorWithDepth(Vector2 center, string lable)
         {
             ARAnchor anchor = null;
-            Vector2 center = new Vector2(screenPos.x * screenWidth, screenPos.y * screenHeight);
-            if (detectedLabels.Contains(lable))
-            {
-                Debug.Log("label already detected");
-                return;
-            }
             
-            detectedLabels.Add(lable);
-            
-            if (m_OcclusionManager.TryAcquireEnvironmentDepthCpuImage(out var cpuImage) && cpuImage.valid)
+            if (m_RaycastManager.Raycast(center, s_Hits, TrackableType.AllTypes))
             {
-                using(cpuImage)
+                Debug.Log(center.ToString() + "  " + lable);
+                var hit = s_Hits[0];
+                GameObject gameObject = Instantiate(prefab, hit.pose.position, hit.pose.rotation);
+                anchor = gameObject.GetComponent<ARAnchor>();
+                if (anchor == null)
                 {
-                    //Assert.IsTrue(cpuImage.planeCount == 1);
-                    var plane = cpuImage.GetPlane(0);
-                    var dataLength = plane.data.Length;
-                    var pixelStride = plane.pixelStride;
-                    var rowStride = plane.rowStride;
-                    //Assert.AreEqual(0, dataLength % rowStride, "dataLength should be divisible by rowStride without a remainder");
-                    //Assert.AreEqual(0,  rowStride% pixelStride, "rowStride should be divisible by pixelStride without a remainder");
-                    
-                    var depthTextureX = (int) (cpuImage.width * screenPos.x);
-                    var depthTextureY = (int) (cpuImage.height * (screenPos.y));
-                    var pixelData = plane.data.GetSubArray(depthTextureY * rowStride + depthTextureX * pixelStride, pixelStride);
-
-                    float depthInMeters = convertPixelDataToDistanceInMeters(pixelData.ToArray(), cpuImage.format);
-                    
-                    if (m_RaycastManager.Raycast(center, s_Hits, TrackableType.AllTypes))
-                    {
-                        Debug.Log(center.ToString() + "  " + lable);
-                        var hit = s_Hits[0];
-                        //hit.pose.position.z = depthInMeters;
-                        // here we just simply replace the depth value obtained from depth map.
-                        Vector3 hitPos = new Vector3(hit.pose.position.x, hit.pose.position.y, depthInMeters);
-                        GameObject gameObject = Instantiate(prefab, hit.pose.position, hit.pose.rotation);
-                        anchor = gameObject.GetComponent<ARAnchor>();
-                        if (anchor == null)
-                        {
-                            anchor = gameObject.AddComponent<ARAnchor>();
-                        }
-                        m_Anchors.Add(anchor);
-                        SetAnchorText(anchor, lable);
-
-                        if (!vocabularyDB.vocabulary.ContainsKey(lable))
-                        {
-                            Word word = showInfo.SaveTranslationsToWord(lable);
-                            SetGetWordDetails.instance.SaveWordDetails(lable, word.german, word.chinese, word.japanese, word.spanish, word.french, false);
-                        }
-                        return;
-                
-                    }
+                    anchor = gameObject.AddComponent<ARAnchor>();
                 }
-            }
+                m_Anchors.Add(anchor);
+                SetAnchorText(anchor, lable);
 
-            //if (m_RaycastManager.Raycast(center, s_Hits, TrackableType.AllTypes))
-            //{
-                //Debug.Log(center.ToString() + "  " + lable);
-                //var hit = s_Hits[0];
-                //hit.pose.position.z = depthInMeters;
-                //GameObject gameObject = Instantiate(prefab, hit.pose.position, hit.pose.rotation);
-                //anchor = gameObject.GetComponent<ARAnchor>();
-                //if (anchor == null)
-                //{
-                    //anchor = gameObject.AddComponent<ARAnchor>();
-                //}
-                //m_Anchors.Add(anchor);
-                //SetAnchorText(anchor, lable);
-
-                //if (!vocabularyDB.vocabulary.ContainsKey(lable))
-                //{
-                    //Word word = showInfo.SaveTranslationsToWord(lable);
-                    //SetGetWordDetails.instance.SaveWordDetails(lable, word.german, word.chinese, word.japanese, word.spanish, word.french, false);
-                //}
-                //return;
+                if (!VocabularyDB.instance.vocabulary.ContainsKey(lable))
+                {
+                    VocabularyDB.instance.AddNewWordToVocabularyDB(lable);
+                }
+                return;
                 
-            //}
-        }
-
-        // NOTE: can be further improved, check depthlab's implementation.
-        float convertPixelDataToDistanceInMeters(byte[] data, XRCpuImage.Format format) 
-        {
-            switch (format) 
-            {
-                case XRCpuImage.Format.DepthUint16:
-                    return BitConverter.ToUInt16(data, 0) / 1000f;
-                case XRCpuImage.Format.DepthFloat32:
-                    return BitConverter.ToSingle(data, 0);
-                default:
-                    throw new Exception($"Format not supported: {format}");
             }
         }
-        
-
-        void Update()
-        {
-            //if (Input.touchCount == 0)
-            //    return;
-
-            //var touch = Input.GetTouch(0);
-            //Logger.Log(touch.position.ToString());
-            //if (touch.phase != TouchPhase.Began)
-            //    return;
-
-            //// Raycast against planes and feature points
-            //const TrackableType trackableTypes =
-            //    TrackableType.PlaneWithinPolygon |
-            //    TrackableType.FeaturePoint;
-
-            //// Perform the raycast
-            //if (m_RaycastManager.Raycast(touch.position, s_Hits, trackableTypes))
-            //{
-            //    // Raycast hits are sorted by distance, so the first one will be the closest hit.
-            //    var hit = s_Hits[0];
-
-            //    // Create a new anchor
-            //    var anchor = CreateAnchor(hit);
-            //    if (anchor)
-            //    {
-            //        // Remember the anchor so we can remove it later.
-            //        m_Anchors.Add(anchor);
-            //    }
-            //    else
-            //    {
-            //        Logger.Log("Error creating anchor");
-            //    }
-            //}
-        }
-
 
         public static List<ARRaycastHit> s_Hits = new List<ARRaycastHit>();
 
@@ -241,7 +130,5 @@ namespace UnityEngine.XR.ARFoundation.Samples
         ARRaycastManager m_RaycastManager;
 
         ARAnchorManager m_AnchorManager;
-        
-        AROcclusionManager m_OcclusionManager;
     }
 }
