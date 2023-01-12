@@ -16,7 +16,7 @@ public class Word
 
         this.screenshot = screenshot;
         this.learned = learned;
-        this.wordInfo = WordInformation.GetWordInfo(english);
+        this.wordInfo = FreeDictionaryAPI.GetWordInfo(english);
 
         wordInitialized = true;
     }
@@ -31,7 +31,7 @@ public class Word
     public string spanish;
     public string french;
 
-    public WordInformation.WordInfo wordInfo;
+    public FreeDictionaryAPI.WordInfo wordInfo;
     public Sprite screenshot;
     public bool learned; // Fabi: "Not sure what this is used for?!" -> comes from Wang
 
