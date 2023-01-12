@@ -35,7 +35,7 @@ public class JsonParser : MonoBehaviour
     {
         SI.CleanAll();
         Debug.Log(text);
-        // debugText.text = text;
+        debugText.text = text;
         int startIndex = 0;
         List <DetectedObj> newDectedObjList = new List <DetectedObj>();
         while (text.IndexOf("name", startIndex) != -1)
