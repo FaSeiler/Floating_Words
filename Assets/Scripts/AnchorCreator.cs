@@ -105,6 +105,26 @@ namespace UnityEngine.XR.ARFoundation.Samples
             {
                 Debug.Log(center.ToString() + "  " + lable);
                 var hit = s_Hits[0];
+
+                if (VocabularyDB.instance.vocabulary.ContainsKey(lable))
+                {
+                   foreach(ARAnchor anchorWithSameLable in m_Anchors)
+                    {
+                        if (anchorWithSameLable.GetComponent<CanvasTextManager>().text == lable)
+                        {
+                            Debug.Log("Anchor with Same label 1. : " + lable + " at " + hit.pose.position);
+                            Debug.Log("Anchor with Same label 2. : " + lable + " at " + anchorWithSameLable.transform.position);
+                            float dis = Vector3.Distance(anchorWithSameLable.transform.position, hit.pose.position);
+                            Debug.Log("Distance :" + dis);
+                            if (dis < 0.2)
+                            {
+                                return;
+                            }
+                        }
+                    }
+                }
+
+
                 GameObject gameObject = Instantiate(prefab, hit.pose.position, hit.pose.rotation);
                 anchor = gameObject.GetComponent<ARAnchor>();
                 if (anchor == null)

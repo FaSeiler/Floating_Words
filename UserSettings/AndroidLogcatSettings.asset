@@ -1,36 +1,48 @@
 {
-    "m_SelectedDeviceId": "RF8M70NHR5Y",
+    "m_SelectedDeviceId": "MUN0219123003542",
     "m_SelectedPackage": {
-        "deviceId": "RF8M70NHR5Y",
+        "deviceId": "MUN0219123003542",
         "name": "com.Company.FloatingWords",
-        "processId": 20042,
+        "processId": 24317,
         "exited": false
     },
     "m_SelectedPriority": 0,
     "m_KnownPackagesForSerialization": [
         {
             "deviceId": "MUN0219123003542",
-            "name": "com.superrhino.rarering",
-            "processId": 9179,
-            "exited": true
-        },
-        {
-            "deviceId": "MUN0219123003542",
-            "name": "com.tencent.mm",
-            "processId": 31933,
+            "name": "com.Company.FloatingWords",
+            "processId": 24006,
             "exited": true
         },
         {
             "deviceId": "MUN0219123003542",
             "name": "com.Company.FloatingWords",
-            "processId": 11838,
+            "processId": 32457,
             "exited": true
         },
         {
             "deviceId": "MUN0219123003542",
             "name": "com.Company.FloatingWords",
-            "processId": 20254,
+            "processId": 6907,
             "exited": true
+        },
+        {
+            "deviceId": "MUN0219123003542",
+            "name": "com.Company.FloatingWords",
+            "processId": 12327,
+            "exited": true
+        },
+        {
+            "deviceId": "MUN0219123003542",
+            "name": "com.Company.FloatingWords",
+            "processId": 19133,
+            "exited": false
+        },
+        {
+            "deviceId": "MUN0219123003542",
+            "name": "com.Company.FloatingWords",
+            "processId": 24317,
+            "exited": false
         },
         {
             "deviceId": "RF8M70NHR5Y",

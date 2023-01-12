@@ -8,6 +8,7 @@ using UnityEngine.UI;
 /// </summary>
 public class LabelController : MonoBehaviour
 {
+    public GameObject label;
     public Text label_text;
 
     public float damping = 5.0f;
@@ -36,7 +37,7 @@ public class LabelController : MonoBehaviour
 
     private void TextFaceCamera()
     {
-        label_text.gameObject.transform.LookAt(transform.position + Camera.main.transform.rotation * Vector3.forward,
+        label.gameObject.transform.LookAt(transform.position + Camera.main.transform.rotation * Vector3.forward,
             Camera.main.transform.rotation * Vector3.up);
     }
 
