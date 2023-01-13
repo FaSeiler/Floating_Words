@@ -43,8 +43,15 @@ public class InteractionManager : MonoBehaviour
                     //Debug.Log("3d_label not seleted");
                 //}
                 selectedLabel = hit.collider.gameObject;
-                var objectRenderer = selectedLabel.GetComponent<Renderer>();
-                objectRenderer.material.SetColor("_Color", Color.red);
+                
+                Destroy(GameObject.FindWithTag("3D_Label"));
+
+
+
+
+                //var objectRenderer = selectedLabel.GetComponent<Renderer>();
+                //objectRenderer.material.SetColor("_Color", Color.red);
+                
 
                 //if (!colorSwitched)
                 //{

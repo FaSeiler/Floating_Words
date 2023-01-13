@@ -1389,6 +1389,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Prefab: {fileID: 1362899771367802, guid: de266e8e1914afc47873b082a14bec09, type: 3}
   showInfo: {fileID: 1571097586}
+  vocabularyDB: {fileID: 0}
   rotateAnchorPrefabOnHit: 0
   m_Anchors: []
 --- !u!114 &955415233
@@ -1640,6 +1641,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6f7160c564afca44895baff15e924bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_RaycastManager: {fileID: 955415229}
 --- !u!4 &1566335508
 Transform:
   m_ObjectHideFlags: 0

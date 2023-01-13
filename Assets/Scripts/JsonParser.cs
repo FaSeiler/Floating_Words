@@ -80,6 +80,8 @@ public class JsonParser : MonoBehaviour
                 center.x *= Screen.width;
                 center.y *= Screen.height;
                 anchorCreater.CreateAnchorWithDepth(center, newDectedObj.Label);
+                //anchorCreater.CreateAnchorWithDepthMap(center, Screen.width, Screen.height, newDectedObj.Label);
+                
                 printInfo(newDectedObj);
             }        
         }

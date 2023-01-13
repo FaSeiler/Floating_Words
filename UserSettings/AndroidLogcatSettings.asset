@@ -1,9 +1,9 @@
 {
-    "m_SelectedDeviceId": "MUN0219123003542",
+    "m_SelectedDeviceId": "RF8M70NHR5Y",
     "m_SelectedPackage": {
-        "deviceId": "MUN0219123003542",
+        "deviceId": "RF8M70NHR5Y",
         "name": "com.Company.FloatingWords",
-        "processId": 24317,
+        "processId": 23956,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -156,6 +156,72 @@
             "deviceId": "RF8M70NHR5Y",
             "name": "com.Company.FloatingWords",
             "processId": 20042,
+            "exited": false
+        },
+        {
+            "deviceId": "RF8M70NHR5Y",
+            "name": "com.Company.FloatingWords",
+            "processId": 6946,
+            "exited": false
+        },
+        {
+            "deviceId": "RF8M70NHR5Y",
+            "name": "com.Company.FloatingWords",
+            "processId": 28233,
+            "exited": false
+        },
+        {
+            "deviceId": "RF8M70NHR5Y",
+            "name": "com.Company.FloatingWords",
+            "processId": 32579,
+            "exited": false
+        },
+        {
+            "deviceId": "RF8M70NHR5Y",
+            "name": "com.Company.FloatingWords",
+            "processId": 4474,
+            "exited": false
+        },
+        {
+            "deviceId": "RF8M70NHR5Y",
+            "name": "com.Company.FloatingWords",
+            "processId": 9145,
+            "exited": false
+        },
+        {
+            "deviceId": "RF8M70NHR5Y",
+            "name": "com.Company.FloatingWords",
+            "processId": 11684,
+            "exited": false
+        },
+        {
+            "deviceId": "RF8M70NHR5Y",
+            "name": "com.Company.FloatingWords",
+            "processId": 12417,
+            "exited": false
+        },
+        {
+            "deviceId": "RF8M70NHR5Y",
+            "name": "com.Company.FloatingWords",
+            "processId": 13431,
+            "exited": false
+        },
+        {
+            "deviceId": "RF8M70NHR5Y",
+            "name": "com.Company.FloatingWords",
+            "processId": 15075,
+            "exited": false
+        },
+        {
+            "deviceId": "RF8M70NHR5Y",
+            "name": "com.Company.FloatingWords",
+            "processId": 18288,
+            "exited": false
+        },
+        {
+            "deviceId": "RF8M70NHR5Y",
+            "name": "com.Company.FloatingWords",
+            "processId": 23956,
             "exited": false
         }
     ],
