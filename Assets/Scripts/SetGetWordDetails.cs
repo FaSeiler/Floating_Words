@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Stores the additional information of a specific word persistently 
+/// in the PlayerPrefs.
+/// </summary>
 public class SetGetWordDetails : MonoBehaviour
 {
     public static SetGetWordDetails instance;
@@ -30,6 +34,7 @@ public class SetGetWordDetails : MonoBehaviour
             PlayerPrefs.SetInt(english + "_learned", temp);
         }
     }
+
     public Word ReturnWordDetails(string word)
     {
         if (PlayerPrefs.HasKey(word))

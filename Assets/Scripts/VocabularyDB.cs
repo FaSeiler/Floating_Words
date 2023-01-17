@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// This class provides a dictionary to add and retrieve vocabularies of type "Word".
+/// </summary>
 public class VocabularyDB : MonoBehaviour
 {
     public static VocabularyDB instance;

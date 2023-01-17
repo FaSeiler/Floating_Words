@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using SimpleJSON;
 using System.Net;
@@ -7,7 +5,7 @@ using System.IO;
 
 /// <summary>
 /// Fetches additional information to a given english word from the 
-/// open source dictionary API "https://dictionaryapi.dev/" and
+/// <see href="https://dictionaryapi.dev/">Free Dictionary API</see> and
 /// returns it in a WordInfo struct.
 /// </summary>
 public class FreeDictionaryAPI
@@ -27,7 +25,7 @@ public class FreeDictionaryAPI
     /// <summary>
     /// Fetches additional information of an english word from the internet.
     /// </summary>
-    /// <param name="word"></param>
+    /// <param name="word">English word to fetch more information from.</param>
     /// <returns>WordInfo struct</returns>
     public static WordInfo GetWordInfo(string word)
     {
@@ -65,9 +63,9 @@ public class FreeDictionaryAPI
                 return wordInfo;
             }
         }
-        catch (WebException)
+        catch (WebException ex)
         {
-            Debug.Log("404 Not found");
+            Debug.Log(ex.GetBaseException().ToString());
             WordInfo nullResult = new WordInfo();
             return nullResult;
         }

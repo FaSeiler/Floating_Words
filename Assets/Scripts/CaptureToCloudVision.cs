@@ -5,16 +5,28 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Class with functionalities to send Google Cloud Vision API requests
+/// using a REST API and the Unity Render Texture as input image.
+/// See: <see href="https://cloud.google.com/vision/docs/reference/rest">Google Cloud Vision API REST</see>
+/// See: <see href="https://docs.unity3d.com/Manual/class-RenderTexture.html">Unity Render Texture</see>
+/// </summary>
 public class CaptureToCloudVision : MonoBehaviour
 {
+    [Header("Google Cloud Account")]
     public string url = "https://vision.googleapis.com/v1/images:annotate?key=";
     public string apiKey = ""; // Put your google cloud vision api key here
+
+    [Header("Request Properties")]
     public FeatureType featureType = FeatureType.OBJECT_LOCALIZATION;
     public int maxResults = 10;
     public float captureIntervalSeconds = 5.0f;
     public int requestedWidth = 640;
     public int requestedHeight = 480;
-    public JsonParser jp;
+
+    [Space(10)]
+    [Header("Dependencies")]
+    public GoogleCloudVisionJsonParser gCloudJsonParser;
     public Slider intervalSlider;
     public TextMeshProUGUI intervalText;
 
@@ -147,7 +159,8 @@ public class CaptureToCloudVision : MonoBehaviour
                         string responses = www.text.Replace("\n", "").Replace(" ", "");
                         JSONNode res = JSON.Parse(responses);
                         string fullText = res["responses"][0]["textAnnotations"][0]["description"].ToString().Trim('"');
-                        jp.ExtractInfo(responses);
+                        Debug.Log(fullText);
+                        //gCloudJsonParser.ExtractInfo("Response: " + responses);
                     }
                     else
                     {

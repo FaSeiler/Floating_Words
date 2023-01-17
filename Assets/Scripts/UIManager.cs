@@ -10,13 +10,15 @@ public class UIManager : MonoBehaviour
 
     public void ShowSettings()
     {
+        PauseController.PauseGame();
         settingButton.gameObject.SetActive(false);
         dictionaryUI.CloseDictionaryUI();
         mainSettings.SetActive(true);
     }
 
-    public void CloseFromMain()
+    public void CloseSettings()
     {
+        PauseController.ResumeGame();
         mainSettings.SetActive(false);
         dictionaryUI.CloseDictionaryUI();
         settingButton.gameObject.SetActive(true);

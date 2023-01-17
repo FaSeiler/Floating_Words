@@ -6,6 +6,9 @@ using System;
 using UnityEngine.Networking;
 using SimpleJSON;
 
+/// <summary>
+/// Gets the translation of a word using Google Clouds translation API.
+/// </summary>
 public class TranslationAPI : MonoBehaviour
 {
     public static TranslationAPI instance;

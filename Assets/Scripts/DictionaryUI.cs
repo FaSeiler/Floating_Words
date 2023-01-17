@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Manages the Dictionary UI components.
+/// </summary>
 public class DictionaryUI : MonoBehaviour
 {
     public GameObject uiGO;

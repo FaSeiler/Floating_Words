@@ -1,15 +1,21 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Draws bounding boxes.
+/// </summary>
+[Obsolete("This class is deprecated.")]
 public class DrawingBoundingBox : MonoBehaviour
 {
     public Material lineMaterial;
-    private List <JsonParser.DetectedObj> ObjList;
+    private List <GoogleCloudVisionJsonParser.DetectedObjBoundingBox> ObjList;
     private float planex;
     private float planey;
     public GameObject plane;
     public TranslationAPI SI;
+
     void CreateLineMaterial()
     {
         if (!lineMaterial)
@@ -33,9 +39,9 @@ public class DrawingBoundingBox : MonoBehaviour
         //planex = plane.GetComponent<Renderer>().bounds.size.x;
         //planey = plane.GetComponent<Renderer>().bounds.size.y;
         //Debug.Log(plane.GetComponent<Renderer>().bounds.size.ToString());
-        ObjList=new List<JsonParser.DetectedObj>();
+        ObjList=new List<GoogleCloudVisionJsonParser.DetectedObjBoundingBox>();
     }
-    public void setobj(List <JsonParser.DetectedObj> newobjList)
+    public void setobj(List <GoogleCloudVisionJsonParser.DetectedObjBoundingBox> newobjList)
     {
         if (ObjList == null)
         {
@@ -44,17 +50,17 @@ public class DrawingBoundingBox : MonoBehaviour
         
         ObjList.Clear();
         
-        foreach (JsonParser.DetectedObj obj in newobjList.ToArray())
+        foreach (GoogleCloudVisionJsonParser.DetectedObjBoundingBox obj in newobjList.ToArray())
         {
-            JsonParser.DetectedObj newObj = obj;
+            GoogleCloudVisionJsonParser.DetectedObjBoundingBox newObj = obj;
 
-            newObj.BR = new Vector2(((newObj.BR.x - 0.5f) * planex), ((-newObj.BR.y + 0.5f) * planey));
-            newObj.BL = new Vector2(((newObj.BL.x - 0.5f) * planex), ((-newObj.BL.y + 0.5f) * planey));
-            newObj.UR = new Vector2(((newObj.UR.x - 0.5f) * planex), ((-newObj.UR.y + 0.5f) * planey));
-            newObj.UL = new Vector2(((newObj.UL.x - 0.5f) * planex), ((-newObj.UL.y + 0.5f) * planey));
+            newObj.bottom_right = new Vector2(((newObj.bottom_right.x - 0.5f) * planex), ((-newObj.bottom_right.y + 0.5f) * planey));
+            newObj.bottom_left = new Vector2(((newObj.bottom_left.x - 0.5f) * planex), ((-newObj.bottom_left.y + 0.5f) * planey));
+            newObj.upper_right = new Vector2(((newObj.upper_right.x - 0.5f) * planex), ((-newObj.upper_right.y + 0.5f) * planey));
+            newObj.upper_left = new Vector2(((newObj.upper_left.x - 0.5f) * planex), ((-newObj.upper_left.y + 0.5f) * planey));
             ObjList.Add(newObj);
-            Vector2 center = (newObj.UL + newObj.UR + newObj.BL + newObj.BR) / 4;
-            SI.ShowLabel(newObj.Label, center);
+            Vector2 center = (newObj.upper_left + newObj.upper_right + newObj.bottom_left + newObj.bottom_right) / 4;
+            SI.ShowLabel(newObj.label, center);
         }
     }
     //Will be called after all regular rendering is done

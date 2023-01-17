@@ -1,5 +1,9 @@
 using UnityEngine;
 
+/// <summary>
+/// Functions to capture a screenshot and save it in the application
+/// data path. Load it again with the referenced word as key.
+/// </summary>
 public class ScreenShot : MonoBehaviour
 {
     public static ScreenShot instance;

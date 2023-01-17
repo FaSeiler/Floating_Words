@@ -4,6 +4,11 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
+/// <summary>
+/// Controlls the Flashcard/Quiz window and provides
+/// functionalities for creating question and answer sets
+/// from the vocabs in the provideddictionary.
+/// </summary>
 public class Flashcards : MonoBehaviour
 {
     public GameObject flashCardsUIGO;
@@ -48,12 +53,12 @@ public class Flashcards : MonoBehaviour
     {
         if (btnId == correctOption)
         {
-            // Correct
+            // Correct option selected
             clickedBtn.gameObject.GetComponent<Image>().color = color_green;
         }
         else
         {
-            // False
+            // Incorrect option selected
             clickedBtn.gameObject.GetComponent<Image>().color = color_red;
         }
     }
@@ -102,7 +107,9 @@ public class Flashcards : MonoBehaviour
         }
     }
 
-    // Choose new word for the quiz
+    /// <summary>
+    /// Choose new word for the quiz
+    /// </summary>
     private void Continue()
     {
         ChooseNextWord();

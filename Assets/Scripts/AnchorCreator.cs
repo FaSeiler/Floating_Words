@@ -4,27 +4,41 @@ using UnityEngine;
 using UnityEngine.XR.ARSubsystems;
 namespace UnityEngine.XR.ARFoundation.Samples
 {
+    /// <summary>
+    /// Manages creating and removing anchors.
+    /// </summary>
     [RequireComponent(typeof(ARAnchorManager))]
     [RequireComponent(typeof(ARRaycastManager))]
     public class AnchorCreator : MonoBehaviour
     {
         [SerializeField]
-        GameObject m_Prefab;
-        public static Word word;
-        public TranslationAPI showInfo;
-        public VocabularyDB vocabularyDB;
+        GameObject m_anchorPrefab;
 
         public GameObject prefab
         {
-            get => m_Prefab;
-            set => m_Prefab = value;
+            get => m_anchorPrefab;
+            set => m_anchorPrefab = value;
         }
 
+        public static List<ARRaycastHit> s_Hits = new List<ARRaycastHit>();
         public bool rotateAnchorPrefabOnHit = false;
-        private List<string> detectedLabels = new List<string>();
+        public List<ARAnchor> m_Anchors = new List<ARAnchor>();
+
+        List<string> detectedLabels = new List<string>();
+        ARRaycastManager m_RaycastManager;
+        ARAnchorManager m_AnchorManager;
+        AROcclusionManager m_OcclusionManager;
+
+        void Awake()
+        {
+            m_RaycastManager = GetComponent<ARRaycastManager>();
+            m_AnchorManager = GetComponent<ARAnchorManager>();
+            m_OcclusionManager = GetComponent<AROcclusionManager>();
+        }
 
         public void RemoveAllAnchors()
         {
+            Debug.Log($"Removing all anchors ({m_Anchors.Count})");
             Logger.Log($"Removing all anchors ({m_Anchors.Count})");
             try
             {
@@ -35,19 +49,10 @@ namespace UnityEngine.XR.ARFoundation.Samples
                 m_Anchors.Clear();
                 detectedLabels = new List<string>();
             }
-            catch (NullReferenceException n)
+            catch (NullReferenceException)
             {
                 throw new ArgumentNullException("Anchors have already been destroyed.");
             }
-        }
-
-        void Awake()
-        {
-            
-            m_RaycastManager = GetComponent<ARRaycastManager>();
-            m_AnchorManager = GetComponent<ARAnchorManager>();
-            m_OcclusionManager = GetComponent<AROcclusionManager>();
-            
         }
 
         void SetAnchorText(ARAnchor anchor, string text)
@@ -107,7 +112,6 @@ namespace UnityEngine.XR.ARFoundation.Samples
             return anchor;
         }
 
-
         public void CreateAnchorWithDepth(Vector2 center, string lable)
         {
             ARAnchor anchor = null;
@@ -150,22 +154,13 @@ namespace UnityEngine.XR.ARFoundation.Samples
                     VocabularyDB.instance.AddNewWordToVocabularyDB(lable);
                 }
                 return;
-                
             }
         }
-
-        
         
         public void CreateAnchorWithDepthMap(Vector2 screenPos, int screenWidth, int screenHeight, string lable)
         {
             ARAnchor anchor = null;
             Vector2 center = new Vector2(screenPos.x * screenWidth, screenPos.y * screenHeight);
-            //if (detectedLabels.Contains(lable))
-            //{
-                //Debug.Log("label already detected");
-                //return;
-            //}
-            
             
             detectedLabels.Add(lable);
             
@@ -185,7 +180,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
                     var depthTextureY = (int) (cpuImage.height * (screenPos.y));
                     var pixelData = plane.data.GetSubArray(depthTextureY * rowStride + depthTextureX * pixelStride, pixelStride);
 
-                    float depthInMeters = convertPixelDataToDistanceInMeters(pixelData.ToArray(), cpuImage.format);
+                    float depthInMeters = ConvertPixelDataToDistanceInMeters(pixelData.ToArray(), cpuImage.format);
                     
                     if (m_RaycastManager.Raycast(center, s_Hits, TrackableType.AllTypes))
                     {
@@ -211,7 +206,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
                             //}
                         //}
 
-                        // here we just simply replace the depth value obtained from depth map.
+                        // Here we just simply replace the depth value obtained from depth map.
                         Vector3 hitPos = new Vector3(hit.pose.position.x, hit.pose.position.y, depthInMeters);
 
                         Debug.Log("value from depthmap" + depthInMeters);
@@ -225,19 +220,18 @@ namespace UnityEngine.XR.ARFoundation.Samples
                         m_Anchors.Add(anchor);
                         SetAnchorText(anchor, lable);
 
-                        if (!vocabularyDB.vocabulary.ContainsKey(lable))
+                        if (!VocabularyDB.instance.vocabulary.ContainsKey(lable))
                         {
                             VocabularyDB.instance.AddNewWordToVocabularyDB(lable);
                         }
                         return;
-                
                     }
                 }
             }
         }
 
         // NOTE: can be further improved, check depthlab's implementation.
-        float convertPixelDataToDistanceInMeters(byte[] data, XRCpuImage.Format format) 
+        float ConvertPixelDataToDistanceInMeters(byte[] data, XRCpuImage.Format format) 
         {
             switch (format) 
             {
@@ -249,16 +243,5 @@ namespace UnityEngine.XR.ARFoundation.Samples
                     throw new Exception($"Format not supported: {format}");
             }
         }
-
-        public static List<ARRaycastHit> s_Hits = new List<ARRaycastHit>();
-
-        public List<ARAnchor> m_Anchors = new List<ARAnchor>();
-
-        ARRaycastManager m_RaycastManager;
-
-        ARAnchorManager m_AnchorManager;
-        
-        AROcclusionManager m_OcclusionManager;
-
     }
 }

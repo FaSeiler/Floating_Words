@@ -5,28 +5,31 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.XR.ARFoundation.Samples;
 
-public class JsonParser : MonoBehaviour
+/// <summary>
+/// Extracts the label and bounding box of a gcloud vision REST response.
+/// </summary>
+public class GoogleCloudVisionJsonParser : MonoBehaviour
 {
-    public DrawingBoundingBox DBB;
     public AnchorCreator anchorCreater;
     public TextMeshProUGUI debugText;
 
-    public struct DetectedObj
+    public struct DetectedObjBoundingBox
     {
-        public DetectedObj(string label, List<Vector2> coords)
+        public DetectedObjBoundingBox(string label, List<Vector2> coords)
         {
-            Label = label;
-            BL = coords[0];
-            BR = coords[1];
-            UR = coords[2];
-            UL = coords[3];
+            this.label = label;
+            bottom_left = coords[0];
+            bottom_right = coords[1];
+            upper_right = coords[2];
+            upper_left = coords[3];
 
         }
-        public string Label { get; set; }
-        public Vector2 BL { get; set; }
-        public Vector2 BR { get; set; }
-        public Vector2 UR { get; set; }
-        public Vector2 UL { get; set; }
+
+        public string label { get; set; }
+        public Vector2 bottom_left { get; set; }
+        public Vector2 bottom_right { get; set; }
+        public Vector2 upper_right { get; set; }
+        public Vector2 upper_left { get; set; }
 
     }
 
@@ -34,15 +37,15 @@ public class JsonParser : MonoBehaviour
     {
         debugText.text = text;
         int startIndex = 0;
-        List <DetectedObj> newDectedObjList = new List <DetectedObj>();
+        List <DetectedObjBoundingBox> newDectedObjList = new List <DetectedObjBoundingBox>();
 
         while (text.IndexOf("name", startIndex) != -1)
         {
-            //extract label
+            // Extract label
             startIndex = text.IndexOf("name", startIndex) + 7; //"name"="....:
             string label = text.Substring(startIndex, text.IndexOf("\"", startIndex) - startIndex);
             List<Vector2> coords = new List<Vector2>();
-            //extract Bb
+            // Extract Bounding Box
             startIndex = text.IndexOf("normalizedVertices", startIndex);
             for (int i = 0; i < 4; i++)
             {
@@ -73,28 +76,32 @@ public class JsonParser : MonoBehaviour
             }
             if(coords.Count == 4)
             {
-                DetectedObj newDectedObj = new DetectedObj(label, coords);
-                newDectedObjList.Add(newDectedObj);
+                DetectedObjBoundingBox newDectedObjBoundingBox = new DetectedObjBoundingBox(label, coords);
+                newDectedObjList.Add(newDectedObjBoundingBox);
 
-                Vector2 center = (newDectedObj.UL + newDectedObj.BR + newDectedObj.UR + newDectedObj.BL) / 4;
+                Vector2 center =   (newDectedObjBoundingBox.upper_left + 
+                                    newDectedObjBoundingBox.bottom_right + 
+                                    newDectedObjBoundingBox.upper_right + 
+                                    newDectedObjBoundingBox.bottom_left) / 4;
+                
                 center.x *= Screen.width;
                 center.y *= Screen.height;
-                anchorCreater.CreateAnchorWithDepth(center, newDectedObj.Label);
+                anchorCreater.CreateAnchorWithDepth(center, newDectedObjBoundingBox.label);
                 //anchorCreater.CreateAnchorWithDepthMap(center, Screen.width, Screen.height, newDectedObj.Label);
                 
-                printInfo(newDectedObj);
+                PrintBoundingBox(newDectedObjBoundingBox);
             }        
         }
     }
 
-    public void printInfo(DetectedObj obj)
+    public void PrintBoundingBox(DetectedObjBoundingBox objBoundingBox)
     {
-        string info = "New Detected Object : " + obj.Label + "\n"
-            + "BottomLeft Coordinates : x= " + obj.BL.x + "  y= " + obj.BL.y + "\n"
-            + "BottomRight Coordinates : x= " + obj.BR.x + "  y= " + obj.BR.y + "\n"
-            + "UpRight Coordinates : x= " + obj.UR.x + "  y= " + obj.UR.y + "\n"
-            + "UpLeft Coordinates : x= " + obj.UL.x + "  y= " + obj.UL.y + "\n";
-        Debug.Log(info);
+        string boundingBoxString = "New Detected Object : " + objBoundingBox.label + "\n"
+            + "BottomLeft Coordinates : x= " + objBoundingBox.bottom_left.x + "  y= " + objBoundingBox.bottom_left.y + "\n"
+            + "BottomRight Coordinates : x= " + objBoundingBox.bottom_right.x + "  y= " + objBoundingBox.bottom_right.y + "\n"
+            + "UpRight Coordinates : x= " + objBoundingBox.upper_right.x + "  y= " + objBoundingBox.upper_right.y + "\n"
+            + "UpLeft Coordinates : x= " + objBoundingBox.upper_left.x + "  y= " + objBoundingBox.upper_left.y + "\n";
+        Debug.Log(boundingBoxString);
     }
 }
 

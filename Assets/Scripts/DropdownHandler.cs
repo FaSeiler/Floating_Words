@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+/// <summary>
+/// Manages the language dropdown.
+/// </summary>
 public class DropdownHandler : MonoBehaviour
 {
     public string selected_language;

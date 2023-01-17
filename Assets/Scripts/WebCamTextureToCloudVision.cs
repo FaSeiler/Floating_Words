@@ -21,7 +21,7 @@ public class WebCamTextureToCloudVision : MonoBehaviour
 
 	public static byte[] jpg;
 
-	public JsonParser jp;
+	public GoogleCloudVisionJsonParser jp;
 	WebCamDevice[] devices;
 	WebCamTexture webcamTexture;
 	Texture2D texture2D;

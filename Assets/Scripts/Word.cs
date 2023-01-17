@@ -34,7 +34,11 @@ public class Word
     public Sprite screenshot;
     public bool learned; // Unused variable
 
-    // Returns the words translation for a given language
+    /// <summary>
+    /// Returns the words translation for a given language
+    /// </summary>
+    /// <param name="languageMode">The language to get the translation from.</param>
+    /// <returns>The translated word string</returns>
     public string GetWordForLanguage(VocabularyDB.LanguageMode languageMode)
     {
         switch (languageMode)
