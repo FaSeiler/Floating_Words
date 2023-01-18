@@ -19,7 +19,7 @@ public class Tutorial : MonoBehaviour
         else
         {
             Debug.Log("This Device doesn't support gyroscope");
-            Tutorialtext.gameObject.SetActive(false);
+            TutorialText.gameObject.SetActive(false);
             Destroy(this);
         }
 
@@ -46,15 +46,15 @@ public class Tutorial : MonoBehaviour
 
     IEnumerator StartTutorial()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(8);
         Tutorialtext.text ="Well done!";
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(5);
         Tutorialtext.text = "You can clean all the anchors by clicking the trash bin button";
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(5);
         Tutorialtext.text = "You can also check the dictionary by clicking the settings button";
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(5);
         Tutorialtext.text = "Have fun learning new words!";
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(5);
         TutorialText.gameObject.SetActive(false);
     }
 

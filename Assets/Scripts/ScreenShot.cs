@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -35,6 +36,21 @@ public class ScreenShot : MonoBehaviour
         ScreenCapture.CaptureScreenshot(Application.dataPath + "/Resources/" + word.english + ".png");
         Debug.Log("Captured");
         return LoadScreenshot(word);
+    }
+
+    /// <summary>
+    /// This coroutine captures a screenshot and assigns it to the given word screenshot property.
+    /// </summary>
+    /// <param name="word">The word to which the screenshot will be added to.</param>
+    /// <returns>Null</returns>
+    public IEnumerator CaptureAndAssign(Word word)
+    {
+        ScreenCapture.CaptureScreenshot(Application.dataPath + "/Resources/" + word.english + ".png");
+        Debug.Log("Captured");
+
+        yield return new WaitForSeconds(2); // Wait 2 seconds until image is stored.
+
+        word.screenshot = LoadScreenshot(word);
     }
 
     /// <summary>
