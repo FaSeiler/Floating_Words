@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
+using UnityEngine.XR.ARFoundation.Samples;
 
 public class InteractionManager : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class InteractionManager : MonoBehaviour
     Camera arCam;
     GameObject selectedLabel;
     bool colorSwitched = false;
+
+    public AnchorCreator AnchorCreator;
 
 
     // Start is called before the first frame update
@@ -45,37 +48,37 @@ public class InteractionManager : MonoBehaviour
                 selectedLabel = hit.collider.gameObject;
                 
                 Destroy(GameObject.FindWithTag("3D_Label"));
-
+                //AnchorCreator.removefromlist(selectedLabel);
 
 
 
                 //var objectRenderer = selectedLabel.GetComponent<Renderer>();
                 //objectRenderer.material.SetColor("_Color", Color.red);
-                
+
 
                 //if (!colorSwitched)
                 //{
-                    //objectRenderer.material.SetColor("_Color", Color.red);
-                    //colorSwitched ^= true;
+                //objectRenderer.material.SetColor("_Color", Color.red);
+                //colorSwitched ^= true;
                 //}
-                
+
                 //if (colorSwitched)
                 //{
-                    //objectRenderer.material.SetColor("_Color", Color.blue);
-                    //colorSwitched ^= true;
+                //objectRenderer.material.SetColor("_Color", Color.blue);
+                //colorSwitched ^= true;
                 //}
-                
+
                 //objectRenderer.material.SetColor("_Color", Color.blue);
 
-                
+
                 //var color = objectRenderer.material.color;
                 //if (color.Equals(Color.red))
                 //{
-                    //objectRenderer.material.SetColor("_Color", Color.blue);
+                //objectRenderer.material.SetColor("_Color", Color.blue);
                 //}
                 //if (color.Equals(Color.blue))
                 //{
-                    //objectRenderer.material.SetColor("_Color", Color.red);
+                //objectRenderer.material.SetColor("_Color", Color.red);
                 //}
             }
         }

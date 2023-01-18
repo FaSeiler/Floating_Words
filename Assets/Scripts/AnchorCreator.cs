@@ -63,7 +63,13 @@ namespace UnityEngine.XR.ARFoundation.Samples
                 canvasTextManager.text = text;
             }
         }
-
+        public void removefromlist(GameObject obj)
+        {
+            ARAnchor anchor=obj.GetComponent<ARAnchor>();
+            if(anchor!=null)
+                Debug.Log("Remove");
+            m_Anchors.Remove(anchor);
+        }
         ARAnchor CreateAnchor(in ARRaycastHit hit)
         {
             ARAnchor anchor = null;
@@ -125,15 +131,19 @@ namespace UnityEngine.XR.ARFoundation.Samples
                 {
                    foreach(ARAnchor anchorWithSameLable in m_Anchors)
                     {
-                        if (anchorWithSameLable.GetComponent<CanvasTextManager>().text == lable)
+                        var canvasTextManager = anchorWithSameLable.GetComponent<CanvasTextManager>();
+                        if (canvasTextManager && canvasTextManager.text== lable)
                         {
                             Debug.Log("Anchor with Same label 1. : " + lable + " at " + hit.pose.position);
                             Debug.Log("Anchor with Same label 2. : " + lable + " at " + anchorWithSameLable.transform.position);
                             float dis = Vector3.Distance(anchorWithSameLable.transform.position, hit.pose.position);
                             Debug.Log("Distance :" + dis);
-                            if (dis < 0.2)
+                            if (dis < 0.15)
                             {
-                                return;
+                                //Update the new anchor
+                                m_Anchors.Remove(anchorWithSameLable);
+                                Destroy(anchorWithSameLable.gameObject);
+                                break;
                             }
                         }
                     }

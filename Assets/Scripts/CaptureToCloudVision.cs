@@ -160,7 +160,7 @@ public class CaptureToCloudVision : MonoBehaviour
                         JSONNode res = JSON.Parse(responses);
                         string fullText = res["responses"][0]["textAnnotations"][0]["description"].ToString().Trim('"');
                         Debug.Log(fullText);
-                        //gCloudJsonParser.ExtractInfo("Response: " + responses);
+                        gCloudJsonParser.ExtractInfo("Response: " + responses);
                     }
                     else
                     {
