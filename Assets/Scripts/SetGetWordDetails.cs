@@ -10,9 +10,23 @@ public class SetGetWordDetails : MonoBehaviour
 {
     public static SetGetWordDetails instance;
 
+    public string[] allSavedWords;
+
     void Start()
     {
         instance = this;
+
+        //testing
+        //SaveWordDetails("aaaabooo", "bru", "caa", "d", "e", "f", false);
+        //SaveWordDetails("aaaabo22", "bru", "caa", "d", "e", "f", false);
+        //SaveWordDetails("aaaab2", "bru", "caa", "d", "e", "f", false);
+
+        //StoreAllWordsInArray();
+        //Debug.Log("Count-" + allSavedWords.Length);
+        //for (int i = 0; i < allSavedWords.Length; i++)
+        //{
+        //    Debug.Log(allSavedWords[i]);
+        //}
     }
 
     public void SaveWordDetails(string english, string german, string chinese, string japanese, string spanish, string french, bool learned)
@@ -32,6 +46,19 @@ public class SetGetWordDetails : MonoBehaviour
             PlayerPrefs.SetString(english + "japanese", japanese);
             PlayerPrefs.SetString(english + "_french", french);
             PlayerPrefs.SetInt(english + "_learned", temp);
+
+            if (!PlayerPrefs.HasKey("allwords"))
+            {
+                PlayerPrefs.SetString("allwords", english);
+            }
+            else
+            {
+                string allwords = PlayerPrefs.GetString("allwords");
+                string final_list = allwords + "|" + english;
+                Debug.Log("concat-" + final_list);
+                PlayerPrefs.SetString("allwords", final_list);
+                PlayerPrefs.Save();
+            }
         }
     }
 
@@ -59,5 +86,11 @@ public class SetGetWordDetails : MonoBehaviour
         {
             return null;
         }
+    }
+
+    public void StoreAllWordsInArray()
+    {
+        Debug.Log("pref=" + PlayerPrefs.GetString("allwords"));
+        allSavedWords = PlayerPrefs.GetString("allwords").Split('|');
     }
 }

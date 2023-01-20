@@ -37,6 +37,12 @@ public class VocabularyDB : MonoBehaviour
         vocabulary.Add(newWord2.english, newWord2);
         vocabulary.Add(newWord3.english, newWord3);
         vocabulary.Add(newWord4.english, newWord4);
+
+        for(int i = 0; i < SetGetWordDetails.instance.allSavedWords.Length; i++)
+        {
+            Word tempWord = SetGetWordDetails.instance.ReturnWordDetails(SetGetWordDetails.instance.allSavedWords[i]);
+            vocabulary.Add(tempWord.english, tempWord);
+        }
     }
 
     public void AddNewWordToVocabularyDB(string newWord) 
