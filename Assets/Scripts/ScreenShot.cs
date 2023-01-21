@@ -11,19 +11,53 @@ public class ScreenShot : MonoBehaviour
 
     private void Start()
     {
+        //Capture("break5");
         instance = this;
+        //Debug.Log("Starting assign");
+        //n.sprite = LoadSprite(Application.persistentDataPath + "/break5.png");
+
     }
+
+    private Sprite LoadSprite(string path)
+    {
+        Debug.Log("loading sprite");
+        if (string.IsNullOrEmpty(path))
+        {
+            Debug.Log("No path"+path);
+            return null;
+        }
+        else
+        {
+            Debug.Log("Not null");
+        }
+        if (System.IO.File.Exists(path))
+        {
+            Debug.Log("path exists");
+            byte[] bytes = System.IO.File.ReadAllBytes(path);
+            Texture2D texture = new Texture2D(1, 1);
+            texture.LoadImage(bytes);
+            Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+            return sprite;
+        }
+        else
+        {
+            Debug.Log("file not exists"+path);
+        }
+        return null;
+    }
+
+
 
     /// <summary>
     /// Captures screenshot and saves it in the "Resources" folder under the name of the input string.
     /// </summary>
     /// <param name="word"></param>
     /// <returns>The screenshot as a sprite.</returns>
-    public Sprite Capture(string word)
+    public void Capture(string word)
     {
-        ScreenCapture.CaptureScreenshot(Application.dataPath + "/Resources/" + word + ".png");
+        ScreenCapture.CaptureScreenshot(Application.persistentDataPath+"/"+word+".png");
         Debug.Log("Captured");
-        return LoadScreenshot(word);
+        //return LoadScreenshot(word);
     }
 
     /// <summary>
@@ -33,7 +67,9 @@ public class ScreenShot : MonoBehaviour
     /// <returns></returns>
     public Sprite Capture(Word word)
     {
-        ScreenCapture.CaptureScreenshot(Application.dataPath + "/Resources/" + word.english + ".png");
+        //ScreenCapture.CaptureScreenshot(Application.dataPath + "/Resources/" + word.english + ".png");
+        ScreenCapture.CaptureScreenshot(Application.persistentDataPath + "/" + word.english + ".png");
+
         Debug.Log("Captured");
         return LoadScreenshot(word);
     }
@@ -45,12 +81,14 @@ public class ScreenShot : MonoBehaviour
     /// <returns>Null</returns>
     public IEnumerator CaptureAndAssign(Word word)
     {
-        ScreenCapture.CaptureScreenshot(Application.dataPath + "/Resources/" + word.english + ".png");
+        //ScreenCapture.CaptureScreenshot(Application.dataPath + "/Resources/" + word.english + ".png");
+        ScreenCapture.CaptureScreenshot(Application.persistentDataPath + "/" + word.english + ".png");
         Debug.Log("Captured");
 
         yield return new WaitForSeconds(2); // Wait 2 seconds until image is stored.
 
-        word.screenshot = LoadScreenshot(word);
+        //word.screenshot = LoadScreenshot(word);
+        word.screenshot = LoadSprite(Application.persistentDataPath + "/" + word.english + ".png");
     }
 
     /// <summary>
