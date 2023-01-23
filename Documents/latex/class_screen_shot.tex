@@ -1,0 +1,153 @@
+\hypertarget{class_screen_shot}{}\doxysection{Screen\+Shot Class Reference}
+\label{class_screen_shot}\index{ScreenShot@{ScreenShot}}
+
+
+Functions to capture a screenshot and save it in the application data path. Load it again with the referenced word as key.  
+
+
+Inheritance diagram for Screen\+Shot\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_screen_shot}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_screen_shot_a2d29898122d339451b2cab763a4068f7}{Capture}} (string word)
+\begin{DoxyCompactList}\small\item\em Captures screenshot and saves it in the \char`\"{}\+Resources\char`\"{} folder under the name of the input string. \end{DoxyCompactList}\item 
+Sprite \mbox{\hyperlink{class_screen_shot_a75d6394a91c6907e7045bac80d642f69}{Capture}} (\mbox{\hyperlink{class_word}{Word}} word)
+\begin{DoxyCompactList}\small\item\em Captures screenshot and saves it in the \char`\"{}\+Resources\char`\"{} folder unter the name of the input word. \end{DoxyCompactList}\item 
+IEnumerator \mbox{\hyperlink{class_screen_shot_a4966b1b364cdb34931835240d28e4b5a}{Capture\+And\+Assign}} (\mbox{\hyperlink{class_word}{Word}} word)
+\begin{DoxyCompactList}\small\item\em This coroutine captures a screenshot and assigns it to the given word screenshot property. \end{DoxyCompactList}\item 
+Sprite \mbox{\hyperlink{class_screen_shot_aca5dee2ff820b9d16b81f65dcab3edc5}{Load\+Screenshot}} (string word)
+\begin{DoxyCompactList}\small\item\em Loads screenshot from \char`\"{}\+Resources\char`\"{} folder with the given string as key. \end{DoxyCompactList}\item 
+Sprite \mbox{\hyperlink{class_screen_shot_af402ddc08758bd6848a5166f51a89641}{Load\+Screenshot}} (\mbox{\hyperlink{class_word}{Word}} word)
+\begin{DoxyCompactList}\small\item\em Loads screenshot from \char`\"{}\+Resources\char`\"{} folder with the given string as key. \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{class_screen_shot_aa2e043b5792b353fc29d637c2679a8ab}{Path\+Of\+Screenshot}} (string word)
+\begin{DoxyCompactList}\small\item\em Returns the path of the saved screenshot. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_screen_shot_a1da5f44f79d2db959e59d799b18ef6e6}\label{class_screen_shot_a1da5f44f79d2db959e59d799b18ef6e6}} 
+static \mbox{\hyperlink{class_screen_shot}{Screen\+Shot}} {\bfseries instance}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Functions to capture a screenshot and save it in the application data path. Load it again with the referenced word as key. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_screen_shot_a2d29898122d339451b2cab763a4068f7}\label{class_screen_shot_a2d29898122d339451b2cab763a4068f7}} 
+\index{ScreenShot@{ScreenShot}!Capture@{Capture}}
+\index{Capture@{Capture}!ScreenShot@{ScreenShot}}
+\doxysubsubsection{\texorpdfstring{Capture()}{Capture()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void Screen\+Shot.\+Capture (\begin{DoxyParamCaption}\item[{string}]{word }\end{DoxyParamCaption})}
+
+
+
+Captures screenshot and saves it in the \char`\"{}\+Resources\char`\"{} folder under the name of the input string. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em word} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The screenshot as a sprite.
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_screen_shot_a75d6394a91c6907e7045bac80d642f69}\label{class_screen_shot_a75d6394a91c6907e7045bac80d642f69}} 
+\index{ScreenShot@{ScreenShot}!Capture@{Capture}}
+\index{Capture@{Capture}!ScreenShot@{ScreenShot}}
+\doxysubsubsection{\texorpdfstring{Capture()}{Capture()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Sprite Screen\+Shot.\+Capture (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_word}{Word}}}]{word }\end{DoxyParamCaption})}
+
+
+
+Captures screenshot and saves it in the \char`\"{}\+Resources\char`\"{} folder unter the name of the input word. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em word} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_screen_shot_a4966b1b364cdb34931835240d28e4b5a}\label{class_screen_shot_a4966b1b364cdb34931835240d28e4b5a}} 
+\index{ScreenShot@{ScreenShot}!CaptureAndAssign@{CaptureAndAssign}}
+\index{CaptureAndAssign@{CaptureAndAssign}!ScreenShot@{ScreenShot}}
+\doxysubsubsection{\texorpdfstring{CaptureAndAssign()}{CaptureAndAssign()}}
+{\footnotesize\ttfamily IEnumerator Screen\+Shot.\+Capture\+And\+Assign (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_word}{Word}}}]{word }\end{DoxyParamCaption})}
+
+
+
+This coroutine captures a screenshot and assigns it to the given word screenshot property. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em word} & The word to which the screenshot will be added to.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Null
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_screen_shot_aca5dee2ff820b9d16b81f65dcab3edc5}\label{class_screen_shot_aca5dee2ff820b9d16b81f65dcab3edc5}} 
+\index{ScreenShot@{ScreenShot}!LoadScreenshot@{LoadScreenshot}}
+\index{LoadScreenshot@{LoadScreenshot}!ScreenShot@{ScreenShot}}
+\doxysubsubsection{\texorpdfstring{LoadScreenshot()}{LoadScreenshot()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Sprite Screen\+Shot.\+Load\+Screenshot (\begin{DoxyParamCaption}\item[{string}]{word }\end{DoxyParamCaption})}
+
+
+
+Loads screenshot from \char`\"{}\+Resources\char`\"{} folder with the given string as key. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em word} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The loaded screenshot as a sprite.
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_screen_shot_af402ddc08758bd6848a5166f51a89641}\label{class_screen_shot_af402ddc08758bd6848a5166f51a89641}} 
+\index{ScreenShot@{ScreenShot}!LoadScreenshot@{LoadScreenshot}}
+\index{LoadScreenshot@{LoadScreenshot}!ScreenShot@{ScreenShot}}
+\doxysubsubsection{\texorpdfstring{LoadScreenshot()}{LoadScreenshot()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Sprite Screen\+Shot.\+Load\+Screenshot (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_word}{Word}}}]{word }\end{DoxyParamCaption})}
+
+
+
+Loads screenshot from \char`\"{}\+Resources\char`\"{} folder with the given string as key. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em word} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The loaded screenshot as a sprite.
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_screen_shot_aa2e043b5792b353fc29d637c2679a8ab}\label{class_screen_shot_aa2e043b5792b353fc29d637c2679a8ab}} 
+\index{ScreenShot@{ScreenShot}!PathOfScreenshot@{PathOfScreenshot}}
+\index{PathOfScreenshot@{PathOfScreenshot}!ScreenShot@{ScreenShot}}
+\doxysubsubsection{\texorpdfstring{PathOfScreenshot()}{PathOfScreenshot()}}
+{\footnotesize\ttfamily string Screen\+Shot.\+Path\+Of\+Screenshot (\begin{DoxyParamCaption}\item[{string}]{word }\end{DoxyParamCaption})}
+
+
+
+Returns the path of the saved screenshot. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em word} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The screenshot path.
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Assets/\+Scripts/Screen\+Shot.\+cs\end{DoxyCompactItemize}

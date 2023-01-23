@@ -6,30 +6,27 @@ using UnityEngine.UI;
 
 public class Tutorial : MonoBehaviour
 {
-    public GameObject TutorialText;
-    private TextMeshProUGUI Tutorialtext;
+    public TextMeshProUGUI tutorialText;
     private bool FinishMoveCamera;
     private Quaternion startQuaternion;
 
 
     private void Awake()
     {
-        if (SystemInfo.supportsGyroscope)
+        if (SystemInfo.supportsGyroscope && PlayerPrefs.GetInt("tutorial_finished" !) != 1)
             Input.gyro.enabled = true;
         else
         {
             Debug.Log("This Device doesn't support gyroscope");
-            TutorialText.gameObject.SetActive(false);
+            tutorialText.gameObject.SetActive(false);
             Destroy(this);
         }
 
     }
     void Start()
     {
-        
         FinishMoveCamera = false;
-        Tutorialtext = TutorialText.GetComponent<TextMeshProUGUI>();
-        Tutorialtext.text = " Please move around your mobile phone";
+        tutorialText.text = "Move your phone around to calibrate";
         StartCoroutine(WaitForGyroscopeEnabled());
     }
 
@@ -46,16 +43,17 @@ public class Tutorial : MonoBehaviour
 
     IEnumerator StartTutorial()
     {
-        yield return new WaitForSeconds(8);
-        Tutorialtext.text ="Well done!";
+        yield return new WaitForSeconds(7);
+        tutorialText.text ="Well done!";
+        yield return new WaitForSeconds(3);
+        tutorialText.text = "Clear anchors by clicking the trash bin button";
+        yield return new WaitForSeconds(4);
+        tutorialText.text = "Check the dictionary by clicking the settings button";
+        yield return new WaitForSeconds(4);
+        tutorialText.text = "Have fun learning new words!";
         yield return new WaitForSeconds(5);
-        Tutorialtext.text = "You can clean all the anchors by clicking the trash bin button";
-        yield return new WaitForSeconds(5);
-        Tutorialtext.text = "You can also check the dictionary by clicking the settings button";
-        yield return new WaitForSeconds(5);
-        Tutorialtext.text = "Have fun learning new words!";
-        yield return new WaitForSeconds(5);
-        TutorialText.gameObject.SetActive(false);
+        tutorialText.gameObject.SetActive(false);
+        PlayerPrefs.SetInt("tutorial_finished", 1);
     }
 
 
