@@ -4,6 +4,10 @@ using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARFoundation.Samples;
 
+/// <summary>
+/// Script for handling  Anchor deletion by touching, further 
+/// interaction functions should be implemented here. 
+/// </summary>
 public class InteractionManager : MonoBehaviour
 {
     [SerializeField]
