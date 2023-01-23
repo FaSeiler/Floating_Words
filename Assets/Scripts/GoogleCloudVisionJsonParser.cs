@@ -86,7 +86,15 @@ public class GoogleCloudVisionJsonParser : MonoBehaviour
                 
                 center.x *= Screen.width;
                 center.y *= Screen.height;
-                anchorCreater.CreateAnchorWithDepth(center, newDectedObjBoundingBox.label);
+                //we ignore the packaged goods
+                if (label == "Packagedgoods")
+                {
+                    Debug.Log("No package good for you");
+                }
+                else
+                {
+                    anchorCreater.CreateAnchorWithDepth(center, newDectedObjBoundingBox.label);
+                }
                 //anchorCreater.CreateAnchorWithDepthMap(center, Screen.width, Screen.height, newDectedObj.Label);
                 
                 PrintBoundingBox(newDectedObjBoundingBox);

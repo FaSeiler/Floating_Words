@@ -21,7 +21,7 @@ public class SetGetWordDetails : MonoBehaviour
         //SaveWordDetails("aaaabo22", "bru", "caa", "d", "e", "f", false);
         //SaveWordDetails("aaaab2", "bru", "caa", "d", "e", "f", false);
 
-        //StoreAllWordsInArray();
+        StoreAllWordsInArray();
         //Debug.Log("Count-" + allSavedWords.Length);
         //for (int i = 0; i < allSavedWords.Length; i++)
         //{
