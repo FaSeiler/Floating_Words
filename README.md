@@ -1,19 +1,13 @@
 # Floating Words
 
 ## About
-**Floating Words** is an AR translation app for Android. Users can simply face their smartphone camera at a real world object and the app creates a 3D AR anchor at that position with the translated label of the object.
+**Floating Words** is an AR translation app for Android. It allows users to point their smartphone camera at a real-world object, and the app automatically creates a 3D AR anchor at that position with the translated label of the object. This vocabulary is stored in a permanent dictionary that can be accessed for detailed information about each word. In addition, the app provides a "Flashcards" feature for revising and studying newly added vocabs. Finally, a screenshot of the real object is stored for each word, so that the user has a visual reference to the vocab in question.
 
-## Supported languages
-* English
-* German
-* French
-* Spanish
-* Japanese
-* Chinese
+## Documentation
+For in detail information about the applications components please refer to the documentation: <a href="/Documentation/Documentation_Floating_Words.pdf" class="image fit"> Docu </a>
 
-## Requirements
-
-A 'Server API key' or a 'Browser API key (with no referrer)' of Google Cloud Vision API is required. See the instructions: [Getting Started](https://cloud.google.com/vision/docs/getting-started)
+## Wiki
+Annotated C# sources: <a href="/Documentation/Doxygen/html/annotated.html" class="image fit"> Wiki </a>
 
 ## License
 
