@@ -38,7 +38,7 @@ public class VocabularyDB : MonoBehaviour
         vocabulary.Add(newWord3.english, newWord3);
         vocabulary.Add(newWord4.english, newWord4);
 
-        Invoke("LoadStoredWords", 2.0f);
+        Invoke("LoadStoredWords", 0.5f);
     }
 
     void LoadStoredWords()
