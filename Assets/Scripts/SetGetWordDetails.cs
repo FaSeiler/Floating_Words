@@ -79,6 +79,7 @@ public class SetGetWordDetails : MonoBehaviour
             }
             Debug.Log(english + german + chinese + temp);
             Word newWord = new Word(english, german, chinese, japanese, spanish, french, null, temp);
+            ObjectImages.instance.AssignImage(newWord);
             return newWord;
         }
 

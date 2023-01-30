@@ -43,10 +43,14 @@ public class VocabularyDB : MonoBehaviour
 
     void LoadStoredWords()
     {
-        for (int i = 0; i < SetGetWordDetails.instance.allSavedWords.Length; i++)
+        if (SetGetWordDetails.instance.allSavedWords.Length >= 1)
         {
-            Word tempWord = SetGetWordDetails.instance.ReturnWordDetails(SetGetWordDetails.instance.allSavedWords[i]);
-            vocabulary.Add(tempWord.english, tempWord);
+            Debug.Log("Saved word length-" + SetGetWordDetails.instance.allSavedWords.Length);
+            for (int i = 0; i < SetGetWordDetails.instance.allSavedWords.Length; i++)
+            {
+                Word tempWord = SetGetWordDetails.instance.ReturnWordDetails(SetGetWordDetails.instance.allSavedWords[i]);
+                vocabulary.Add(tempWord.english, tempWord);
+            }
         }
     }
 

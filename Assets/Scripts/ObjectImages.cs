@@ -97,6 +97,9 @@ public class ObjectImages : MonoBehaviour
             case "Wallet":
                 m = 17;
                 break;
+            //case "aaaab2":
+            //    m = 17;
+            //    break;
             default:
                 m = 18;
                 break;
