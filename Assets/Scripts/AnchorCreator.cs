@@ -55,11 +55,13 @@ namespace UnityEngine.XR.ARFoundation.Samples
             }
         }
 
-        void SetAnchorText(ARAnchor anchor, string text)
+        void SetAnchorText(ARAnchor anchor, string key)
         {
             var canvasTextManager = anchor.GetComponent<CanvasTextManager>();
             if (canvasTextManager)
             {
+                Word word = VocabularyDB.instance.vocabulary[key];
+                string text= (string)word.GetType().GetField(VocabularyDB.activeLanguageMode.ToString()).GetValue(word);
                 canvasTextManager.text = text;
             }
         }
@@ -157,12 +159,13 @@ namespace UnityEngine.XR.ARFoundation.Samples
                     anchor = gameObject.AddComponent<ARAnchor>();
                 }
                 m_Anchors.Add(anchor);
-                SetAnchorText(anchor, lable);
 
                 if (!VocabularyDB.instance.vocabulary.ContainsKey(lable))
                 {
                     VocabularyDB.instance.AddNewWordToVocabularyDB(lable);
                 }
+                SetAnchorText(anchor, lable);
+
                 return;
             }
         }
@@ -228,12 +231,13 @@ namespace UnityEngine.XR.ARFoundation.Samples
                             anchor = gameObject.AddComponent<ARAnchor>();
                         }
                         m_Anchors.Add(anchor);
-                        SetAnchorText(anchor, lable);
+
 
                         if (!VocabularyDB.instance.vocabulary.ContainsKey(lable))
                         {
                             VocabularyDB.instance.AddNewWordToVocabularyDB(lable);
                         }
+                        SetAnchorText(anchor, lable);
                         return;
                     }
                 }
