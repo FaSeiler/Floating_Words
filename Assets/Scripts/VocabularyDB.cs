@@ -54,7 +54,8 @@ public class VocabularyDB : MonoBehaviour
     {
         Word word = CreateNewWordWithTranslations(newWord); // Create the word with translations
         //word.screenshot = ScreenShot.instance.Capture(newWord); // Save screenshot for word
-        StartCoroutine(ScreenShot.instance.CaptureAndAssign(word));
+        //StartCoroutine(ScreenShot.instance.CaptureAndAssign(word));
+        ObjectImages.instance.AssignImage(word);
         SetGetWordDetails.instance.SaveWordDetails(newWord, word.german, word.chinese, word.japanese, word.spanish, word.french, false); // Save word details
         vocabulary.Add(word.english, word); // Add new word to DB dictionary
     }
