@@ -65,10 +65,10 @@ namespace UnityEngine.XR.ARFoundation.Samples
                     {
                         m_LogText.text = text;
                     }
-                    else
-                    {
-                        Debug.Log(text);
-                    }
+                    //else
+                    //{
+                    //    //Debug.Log(text);
+                    //}
                 }
 
                 m_LastMessageCount = s_Log.Count;

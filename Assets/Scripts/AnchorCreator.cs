@@ -38,8 +38,8 @@ namespace UnityEngine.XR.ARFoundation.Samples
 
         public void RemoveAllAnchors()
         {
-            Debug.Log($"Removing all anchors ({m_Anchors.Count})");
-            Logger.Log($"Removing all anchors ({m_Anchors.Count})");
+            //Debug.Log($"Removing all anchors ({m_Anchors.Count})");
+            //Logger.Log($"Removing all anchors ({m_Anchors.Count})");
             try
             {
                 foreach (var anchor in m_Anchors)
