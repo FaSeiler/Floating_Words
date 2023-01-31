@@ -121,5 +121,4 @@ public class VocabularyDB : MonoBehaviour
 
         Debug.Log(output);
     }
-
 }
