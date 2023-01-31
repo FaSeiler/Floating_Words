@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARSubsystems;
@@ -38,8 +39,7 @@ namespace UnityEngine.XR.ARFoundation.Samples
 
         public void RemoveAllAnchors()
         {
-            //Debug.Log($"Removing all anchors ({m_Anchors.Count})");
-            //Logger.Log($"Removing all anchors ({m_Anchors.Count})");
+
             try
             {
                 foreach (var anchor in m_Anchors)
@@ -55,12 +55,32 @@ namespace UnityEngine.XR.ARFoundation.Samples
             }
         }
 
-        void SetAnchorText(ARAnchor anchor, string text)
+        IEnumerator SetAnchorText(ARAnchor anchor, string key)
         {
+            Word word = VocabularyDB.instance.vocabulary[key];
+            yield return new WaitUntil(() => (string)word.GetType().GetField(VocabularyDB.activeLanguageMode.ToString()).GetValue(word) != "_");
             var canvasTextManager = anchor.GetComponent<CanvasTextManager>();
             if (canvasTextManager)
-            {
+            {          
+                string text = (string)word.GetType().GetField(VocabularyDB.activeLanguageMode.ToString()).GetValue(word);
                 canvasTextManager.text = text;
+                Debug.Log("set " + text);
+            }
+        }
+
+        public void SetAllAnchorsText(string OldLanguage)
+        {
+            for(int i = 0; i < m_Anchors.Count; i++)
+            {
+                string text = m_Anchors[i].GetComponent<CanvasTextManager>().text;
+                foreach ( Word word in VocabularyDB.instance.vocabulary.Values)
+                {
+                    if ((string)word.GetType().GetField(OldLanguage).GetValue(word)== text)
+                    {
+                        m_Anchors[i].GetComponent<CanvasTextManager>().text = (string)word.GetType().GetField(VocabularyDB.activeLanguageMode.ToString()).GetValue(word);
+                        break;
+                    }
+                }
             }
         }
         public void removefromlist(GameObject obj)
@@ -131,8 +151,10 @@ namespace UnityEngine.XR.ARFoundation.Samples
                 {
                    foreach(ARAnchor anchorWithSameLable in m_Anchors)
                     {
+                        Word word = VocabularyDB.instance.vocabulary[lable];
+                        string translation= (string)word.GetType().GetField(VocabularyDB.activeLanguageMode.ToString()).GetValue(word);
                         var canvasTextManager = anchorWithSameLable.GetComponent<CanvasTextManager>();
-                        if (canvasTextManager && canvasTextManager.text== lable)
+                        if (canvasTextManager && canvasTextManager.text == translation)
                         {
                             Debug.Log("Anchor with Same label 1. : " + lable + " at " + hit.pose.position);
                             Debug.Log("Anchor with Same label 2. : " + lable + " at " + anchorWithSameLable.transform.position);
@@ -157,12 +179,15 @@ namespace UnityEngine.XR.ARFoundation.Samples
                     anchor = gameObject.AddComponent<ARAnchor>();
                 }
                 m_Anchors.Add(anchor);
-                SetAnchorText(anchor, lable);
+               
 
                 if (!VocabularyDB.instance.vocabulary.ContainsKey(lable))
                 {
+                    Debug.Log("not included");
                     VocabularyDB.instance.AddNewWordToVocabularyDB(lable);
                 }
+                StartCoroutine(SetAnchorText(anchor, lable));
+                
                 return;
             }
         }
@@ -228,12 +253,13 @@ namespace UnityEngine.XR.ARFoundation.Samples
                             anchor = gameObject.AddComponent<ARAnchor>();
                         }
                         m_Anchors.Add(anchor);
-                        SetAnchorText(anchor, lable);
+                        
 
                         if (!VocabularyDB.instance.vocabulary.ContainsKey(lable))
                         {
                             VocabularyDB.instance.AddNewWordToVocabularyDB(lable);
                         }
+                        SetAnchorText(anchor, lable);
                         return;
                     }
                 }

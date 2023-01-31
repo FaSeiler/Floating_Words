@@ -92,6 +92,10 @@ public class SetGetWordDetails : MonoBehaviour
     public void StoreAllWordsInArray()
     {
         Debug.Log("pref=" + PlayerPrefs.GetString("allwords"));
-        allSavedWords = PlayerPrefs.GetString("allwords").Split('|');
+        if (PlayerPrefs.GetString("allwords") !="")
+        {
+            allSavedWords = PlayerPrefs.GetString("allwords").Split('|');
+        }
+        
     }
 }
