@@ -93,11 +93,12 @@ public class GoogleCloudVisionJsonParser : MonoBehaviour
                 }
                 else
                 {
+                    PrintBoundingBox(newDectedObjBoundingBox);
                     anchorCreater.CreateAnchorWithDepth(center, newDectedObjBoundingBox.label);
                 }
                 //anchorCreater.CreateAnchorWithDepthMap(center, Screen.width, Screen.height, newDectedObj.Label);
                 
-                PrintBoundingBox(newDectedObjBoundingBox);
+               
             }        
         }
     }

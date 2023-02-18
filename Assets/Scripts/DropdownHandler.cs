@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.XR.ARFoundation.Samples;
+using UnityEngine.XR.ARFoundation;
 
 /// <summary>
 /// Manages the language dropdown.
@@ -11,7 +13,7 @@ public class DropdownHandler : MonoBehaviour
 {
     public string selected_language;
     public TMP_Dropdown dropdown;
-
+    public AnchorCreator anchorCreator;
     void Start()
     {
         dropdown.options.Clear();
@@ -36,7 +38,7 @@ public class DropdownHandler : MonoBehaviour
     void DropdownItemSelected(TMP_Dropdown dropdown)
     {
         int index = dropdown.value;
-
+        string OldLanguageMode = VocabularyDB.activeLanguageMode.ToString();
         switch (index)
         {
             case 0:
@@ -60,6 +62,8 @@ public class DropdownHandler : MonoBehaviour
                 VocabularyDB.activeLanguageMode = VocabularyDB.LanguageMode.french;
                 break;
         }
+        anchorCreator.SetAllAnchorsText(OldLanguageMode);
+
 
         Debug.Log(selected_language);
     }
